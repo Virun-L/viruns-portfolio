@@ -88,7 +88,7 @@ export const Navbar = () => {
             href="#contact"
             className="hidden md:inline-flex items-center rounded-full bg-navy px-4 py-2 text-sm font-medium text-navy-foreground transition-all hover:bg-navy/90 hover:shadow-glow"
           >
-            Hire me
+            Let's build
           </a>
 
           <button
@@ -120,7 +120,7 @@ export const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className="mt-1 block rounded-xl bg-navy px-4 py-3 text-center text-sm font-medium text-navy-foreground"
                 >
-                  Hire me
+                  Let's build
                 </a>
               </li>
             </ul>

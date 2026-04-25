@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Code2, Braces, GitBranch } from "lucide-react";
+import portrait from "@/assets/virun-portrait.jpg";
 
 const roles = [
   "Full-Stack Developer",
@@ -100,27 +101,44 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Terminal card */}
-          <div className="relative animate-scale-in">
-            <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-br from-accent/30 via-transparent to-navy/20 blur-2xl" aria-hidden />
-            <div className="relative rounded-3xl border border-border bg-navy text-navy-foreground shadow-elev overflow-hidden">
-              <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-                <span className="h-3 w-3 rounded-full bg-red-400/80" />
-                <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
-                <span className="h-3 w-3 rounded-full bg-green-400/80" />
-                <span className="ml-3 font-mono-ui text-xs text-white/60">~/virun — zsh</span>
+          {/* Portrait */}
+          <div className="relative animate-scale-in mx-auto w-full max-w-md lg:max-w-none">
+            {/* glow blobs */}
+            <div className="absolute -inset-6 rounded-[36px] bg-gradient-to-br from-accent/35 via-transparent to-navy/25 blur-3xl" aria-hidden />
+            <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-accent/40 blur-2xl animate-float" aria-hidden />
+
+            {/* dashed frame */}
+            <div className="relative rounded-[28px] border border-dashed border-navy/30 p-3">
+              <div className="relative overflow-hidden rounded-[22px] bg-navy shadow-elev">
+                {/* subtle accent backdrop behind subject */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(70% 60% at 50% 35%, hsl(36 98% 53% / 0.35), transparent 65%)",
+                  }}
+                  aria-hidden
+                />
+                <img
+                  src={portrait}
+                  alt="Portrait of Virun Liyanage, full-stack developer"
+                  loading="eager"
+                  className="relative z-10 block h-auto w-full object-cover"
+                />
               </div>
-              <div className="p-5 font-mono-ui text-sm leading-7">
-                <p><span className="text-accent">virun@iit</span>:<span className="text-white/60">~</span>$ whoami</p>
-                <p className="text-white/80">cs_undergraduate &amp; full_stack_dev</p>
-                <p className="mt-2"><span className="text-accent">virun@iit</span>:<span className="text-white/60">~</span>$ cat stack.json</p>
-                <pre className="mt-1 text-white/85 text-xs sm:text-sm whitespace-pre-wrap">{`{
-  "frontend": ["React", "Vite", "TS", "Tailwind"],
-  "backend":  ["Node", "Express", "Spring"],
-  "data":     ["PostgreSQL", "MongoDB"],
-  "learning": ["Docker", "K8s", "AWS"]
-}`}</pre>
-                <p className="mt-2"><span className="text-accent">virun@iit</span>:<span className="text-white/60">~</span>$ <span className="inline-flex items-center gap-1"><Sparkles className="h-3.5 w-3.5 text-accent" /> let's build something</span><span className="ml-1 inline-block h-4 w-2 translate-y-0.5 bg-accent animate-blink" /></p>
+
+              {/* floating code chips */}
+              <div className="absolute -left-4 top-8 hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
+                <Code2 className="h-3.5 w-3.5 text-accent" />
+                &lt;/&gt; full-stack
+              </div>
+              <div className="absolute -right-3 top-1/3 hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "1.2s" }}>
+                <Braces className="h-3.5 w-3.5 text-accent" />
+                &#123; devops &#125;
+              </div>
+              <div className="absolute -left-3 -bottom-3 hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "0.6s" }}>
+                <GitBranch className="h-3.5 w-3.5 text-accent" />
+                git push origin main
               </div>
             </div>
           </div>
