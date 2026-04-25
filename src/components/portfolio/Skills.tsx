@@ -13,31 +13,26 @@ type Logo = {
   delay: string;
 };
 
-// Brand logos via Simple Icons CDN, recolored to navy.
-const navyHex = "14213d";
-const logoUrl = (slug: string) => `https://cdn.simpleicons.org/${slug}/${navyHex}`;
+// Brand logos via Simple Icons CDN, in their original brand colors.
+const logoUrl = (slug: string) => `https://cdn.simpleicons.org/${slug}`;
 
 const logos: Logo[] = [
-  { slug: "react",         name: "React",         top: "8%",  left: "12%", size: "h-14 w-14",  rotate: "-rotate-6", delay: "0s" },
-  { slug: "typescript",    name: "TypeScript",    top: "4%",  left: "38%", size: "h-12 w-12",  rotate: "rotate-3",  delay: "0.4s" },
-  { slug: "javascript",    name: "JavaScript",    top: "16%", left: "62%", size: "h-11 w-11",  rotate: "-rotate-3", delay: "0.8s" },
-  { slug: "tailwindcss",   name: "Tailwind CSS",  top: "10%", left: "82%", size: "h-16 w-16",  rotate: "rotate-6",  delay: "1.2s" },
-  { slug: "vite",          name: "Vite",          top: "30%", left: "5%",  size: "h-12 w-12",  rotate: "rotate-2",  delay: "0.2s" },
-  { slug: "nextdotjs",     name: "Next.js",       top: "32%", left: "26%", size: "h-14 w-14",  rotate: "-rotate-2", delay: "1.4s" },
-  { slug: "nodedotjs",     name: "Node.js",       top: "36%", left: "48%", size: "h-16 w-16",  rotate: "rotate-4",  delay: "0.6s" },
-  { slug: "express",       name: "Express",       top: "30%", left: "70%", size: "h-12 w-12",  rotate: "-rotate-5", delay: "1.0s" },
-  { slug: "spring",        name: "Spring",        top: "34%", left: "88%", size: "h-12 w-12",  rotate: "rotate-3",  delay: "0.3s" },
-  { slug: "openjdk",       name: "Java",          top: "55%", left: "10%", size: "h-14 w-14",  rotate: "-rotate-4", delay: "1.1s" },
-  { slug: "python",        name: "Python",        top: "58%", left: "32%", size: "h-12 w-12",  rotate: "rotate-5",  delay: "0.7s" },
-  { slug: "postgresql",    name: "PostgreSQL",    top: "60%", left: "55%", size: "h-14 w-14",  rotate: "-rotate-3", delay: "0.5s" },
-  { slug: "mongodb",       name: "MongoDB",       top: "55%", left: "76%", size: "h-12 w-12",  rotate: "rotate-2",  delay: "1.3s" },
-  { slug: "mysql",         name: "MySQL",         top: "62%", left: "90%", size: "h-12 w-12",  rotate: "-rotate-6", delay: "0.9s" },
-  { slug: "git",           name: "Git",           top: "80%", left: "8%",  size: "h-12 w-12",  rotate: "rotate-4",  delay: "1.5s" },
-  { slug: "docker",        name: "Docker",        top: "82%", left: "30%", size: "h-16 w-16",  rotate: "-rotate-3", delay: "0.4s" },
-  { slug: "githubactions", name: "GitHub Actions",top: "84%", left: "54%", size: "h-12 w-12",  rotate: "rotate-3",  delay: "1.0s" },
-  { slug: "linux",         name: "Linux",         top: "82%", left: "74%", size: "h-12 w-12",  rotate: "-rotate-2", delay: "0.6s" },
-  { slug: "amazonwebservices", name: "AWS",       top: "84%", left: "90%", size: "h-12 w-12",  rotate: "rotate-5",  delay: "1.2s" },
-  { slug: "postman",       name: "Postman",       top: "20%", left: "94%", size: "h-10 w-10",  rotate: "-rotate-4", delay: "0.8s" },
+  { slug: "html5",       name: "HTML5",        top: "10%", left: "8%",  size: "h-14 w-14", rotate: "-rotate-6", delay: "0s" },
+  { slug: "css",         name: "CSS",          top: "6%",  left: "28%", size: "h-12 w-12", rotate: "rotate-3",  delay: "0.4s" },
+  { slug: "tailwindcss", name: "Tailwind CSS", top: "14%", left: "48%", size: "h-16 w-16", rotate: "rotate-6",  delay: "1.2s" },
+  { slug: "javascript",  name: "JavaScript",   top: "8%",  left: "70%", size: "h-12 w-12", rotate: "-rotate-3", delay: "0.8s" },
+  { slug: "typescript",  name: "TypeScript",   top: "12%", left: "90%", size: "h-12 w-12", rotate: "rotate-2",  delay: "0.6s" },
+  { slug: "react",       name: "React",        top: "36%", left: "6%",  size: "h-16 w-16", rotate: "rotate-3",  delay: "0.2s" },
+  { slug: "nodedotjs",   name: "Node.js",      top: "32%", left: "26%", size: "h-14 w-14", rotate: "-rotate-2", delay: "1.4s" },
+  { slug: "express",     name: "Express",      top: "38%", left: "48%", size: "h-12 w-12", rotate: "rotate-4",  delay: "0.9s" },
+  { slug: "openjdk",     name: "Java",         top: "34%", left: "70%", size: "h-14 w-14", rotate: "-rotate-5", delay: "1.0s" },
+  { slug: "python",      name: "Python",       top: "38%", left: "92%", size: "h-12 w-12", rotate: "rotate-3",  delay: "0.3s" },
+  { slug: "postgresql",  name: "PostgreSQL",   top: "62%", left: "10%", size: "h-14 w-14", rotate: "-rotate-4", delay: "1.1s" },
+  { slug: "mysql",       name: "MySQL",        top: "60%", left: "30%", size: "h-12 w-12", rotate: "rotate-5",  delay: "0.7s" },
+  { slug: "mongodb",     name: "MongoDB",      top: "64%", left: "52%", size: "h-14 w-14", rotate: "-rotate-3", delay: "0.5s" },
+  { slug: "supabase",    name: "Supabase",     top: "60%", left: "74%", size: "h-12 w-12", rotate: "rotate-2",  delay: "1.3s" },
+  { slug: "github",      name: "GitHub",       top: "64%", left: "92%", size: "h-12 w-12", rotate: "-rotate-6", delay: "0.9s" },
+  { slug: "postman",     name: "Postman",      top: "86%", left: "50%", size: "h-12 w-12", rotate: "rotate-4",  delay: "0.6s" },
 ];
 
 export const Skills = () => {
