@@ -1,69 +1,47 @@
-## Changes to make
+## Changes
 
-### 1. Coding-friendly font
+### 1. Hero photo swap (`src/components/portfolio/Hero.tsx` + new asset)
+- Copy `user-uploads://dp_1.jpg` → `src/assets/virun-portrait-2.jpg`.
+- Update the import in `Hero.tsx` to the new asset (keep the existing portrait frame, glow, dashed border, and floating code chips intact).
+- The new photo has a light gray background, so I'll tone down the orange radial backdrop behind the subject (it currently fights with the lighter image) and switch the inner card background from `bg-navy` to a soft neutral so the photo blends cleanly.
 
-- Swap the body/display font to **JetBrains Mono** + **Fira Code** pairing (developer aesthetic). Concretely:
-  - Headings → **Space Grotesk** stays only if you prefer; switching to **JetBrains Mono** for headings and **Fira Code** for body to fully lean into a coder vibe. Recommend: headings in `JetBrains Mono` (bold), body in `Inter` kept for readability OR body in `Fira Code` if you want full mono feel.
-  - I'll go with: **Headings = JetBrains Mono (bold)**, **Body = Inter**, **Mono accents = Fira Code**. This reads as "developer" but stays legible.
-- Update `index.html` Google Fonts link, `src/index.css` `font-family` rules, and `tailwind.config.ts` `fontFamily` tokens.
+### 2. Remove the dot from section-label pills (`src/index.css`)
+- The `.section-label::before` pseudo-element renders the leading orange dot. Remove that block entirely.
+- Keep the pill background, border, and `// label` text styling untouched. This affects every section (`// about`, `// services`, `// skills`, `// work`, `// contact`) consistently.
 
-### 2. Hero photo replaces terminal
+### 3. About section — remove the stats card (`src/components/portfolio/About.tsx`)
+- Delete the entire `Stats` bento (Years coding / Projects built / Technologies / % Curiosity) including the `useCounter` hook, `Stat` component, `statsRef`, and `statsIn` state — they become dead code once the card is gone.
+- Adjust the bio article's grid span so the layout stays balanced after removal:
+  - Bio: `md:col-span-4 md:row-span-2` → `md:col-span-6` (full width, single row), OR keep span 4 and grow Currently learning to span 2 + Location span 2 + Off the keyboard span 2 in a tidy 6-col second row. I'll go with bio spanning all 6 cols on top and the three remaining tiles (Currently learning, Location, Off the keyboard) each `md:col-span-2` underneath — clean 3-up row, no empty slot.
 
-- Copy the uploaded photo `user-uploads://dp_resized.jpg` → `src/assets/virun-portrait.jpg`.
-- In `src/components/portfolio/Hero.tsx`, remove the entire terminal card block and replace with a styled portrait:
-  - Rounded image with a subtle navy border, soft shadow, and a floating accent-colored blob behind it (keeps the existing animated glow vibe).
-  - Small floating "code chip" badges (e.g., `</>`, `{ }`, `git`) around the photo for a developer feel — keeps the section visually rich.
-  - Image imported as ES6 module from `@/assets/virun-portrait.jpg`.
+### 4. About — "Off the keyboard" hobbies (`About.tsx`)
+- Replace the single line "Tea, side projects, and hunting for new tech to learn." with three hobby chips: **Gym**, **Photography**, **Coffee**.
+- Render as small rounded chips with icons (lucide: `Dumbbell`, `Camera`, `Coffee`) inside the existing tile, keeping the orange `Zap` background flourish.
 
-### 3. "My toolkit" → logo cloud
+### 5. Toolkit — original-color logos + curated list (`src/components/portfolio/Skills.tsx`)
+- Switch logo URLs from `cdn.simpleicons.org/{slug}/14213d` → `cdn.simpleicons.org/{slug}` so each brand renders in its native color.
+- Replace the logo array with **only** the requested techs, in this order:
+  HTML5, CSS3, Tailwind CSS, JavaScript, Java, Python, React, Node.js, MySQL, PostgreSQL, Supabase, MongoDB, TypeScript, Postman, GitHub, Express.
+  Simple Icons slugs: `html5`, `css3` (or `css` if css3 is missing — will verify with the CDN), `tailwindcss`, `javascript`, `openjdk` (Java), `python`, `react`, `nodedotjs`, `mysql`, `postgresql`, `supabase`, `mongodb`, `typescript`, `postman`, `github`, `express`.
+- Re-distribute the `top` / `left` / `rotate` / `size` / `delay` values across the 16 logos so they spread evenly through the container without overlap (manually tuned, still randomized-looking, no grid).
+- Keep float animation, hover scale, and the orange drop-shadow glow on hover.
 
-- Replace `src/components/portfolio/Skills.tsx` content with a single bento tile containing a **scattered logo cloud**:
-  - Use **Simple Icons CDN** (`https://cdn.simpleicons.org/{slug}/14213d`) for crisp brand SVGs in the navy color, so no extra dependencies.
-  - Logos: TypeScript, JavaScript, Java, Python, React, Vite, TailwindCSS, Next.js, Node.js, Express, Spring, PostgreSQL, MongoDB, MySQL, Git, Docker, GitHub Actions, Linux, AWS, Postman.
-  - Position with **absolute positioning + randomized top/left/rotate/size** inside a relative container (~`h-[420px] md:h-[480px]`), with subtle float animation on hover.
-  - Remove the description paragraph ("The technologies I reach for daily…"). Keep the `// skills` label + `My toolkit` heading only.
-
-### 4. Brighter section labels (`// about`, `// services`, etc.)
-
-- Currently rendered with `font-mono-ui text-sm text-accent` — they look washed out on white.
-- Upgrade across `About.tsx`, `Services.tsx`, `Skills.tsx`, `Projects.tsx`, `Contact.tsx`:
-  - Wrap in a pill: `inline-flex items-center gap-2 rounded-full bg-accent/15 px-3 py-1 text-accent font-semibold tracking-wide` with a small leading dot (`h-1.5 w-1.5 rounded-full bg-accent`).
-  - Bumps visual weight without breaking the palette.
-
-### 5. Navbar CTA
-
-- In `src/components/portfolio/Navbar.tsx`, change "Hire me" → **"Let's build"** (both desktop and mobile drawer button).
-
-### 6. Remove orange in text (except hero)
-
-- The `text-gradient` utility currently fades into orange. Audit & adjust:
-  - **Keep** orange on hero: `Hi, I'm Virun` gradient, the `.` accent, and the `> role` chevron.
-  - **Remove/replace** orange-text usages in:
-    - `About.tsx` → "about me" gradient → solid navy (or subtle navy-only gradient).
-    - `Services.tsx` → "do" gradient → solid navy.
-    - `Skills.tsx` → "toolkit" gradient → solid navy.
-    - `Projects.tsx` → "work" gradient → solid navy.
-    - `Contact.tsx` → "together" gradient → solid navy.
-    - `Stat` numbers in About: the `+`/`%` suffix is orange — change to navy.
-    - Footer & any other stray orange text.
-  - Orange stays on **non-text** elements: CTA button background, dots, borders, chips, glow shadows, the section-label pill bg, the live "Available" dot, etc. — so the accent color still pops visually.
+### 6. Contact — remove the info aside (`src/components/portfolio/Contact.tsx`)
+- Delete the `<aside>` "Reach out" card (Email / Location / social links).
+- Change the wrapper grid from `lg:grid-cols-5` + form `lg:col-span-3` to a single-column layout, with the form constrained to `max-w-3xl mx-auto` so it doesn't stretch awkwardly on wide screens.
+- Form, validation, and submit stay exactly as-is.
 
 ## Files touched
 
-- `index.html` (fonts)
-- `src/index.css` (font-family, maybe a `text-gradient-navy` utility)
-- `tailwind.config.ts` (fontFamily tokens)
-- `src/components/portfolio/Hero.tsx` (photo replaces terminal)
-- `src/components/portfolio/Skills.tsx` (logo cloud)
-- `src/components/portfolio/About.tsx` (label pill, gradient → navy, stat suffix color)
-- `src/components/portfolio/Services.tsx` (label pill, gradient → navy)
-- `src/components/portfolio/Projects.tsx` (label pill, gradient → navy)
-- `src/components/portfolio/Contact.tsx` (label pill, gradient → navy)
-- `src/components/portfolio/Navbar.tsx` ("Let's build")
-- `src/components/portfolio/Footer.tsx` (audit orange text)
-- New asset: `src/assets/virun-portrait.jpg`
+- `src/assets/virun-portrait-2.jpg` (new — copied from upload)
+- `src/components/portfolio/Hero.tsx` (image import + backdrop tweak)
+- `src/index.css` (remove `.section-label::before`)
+- `src/components/portfolio/About.tsx` (drop stats card, restructure grid, hobby chips)
+- `src/components/portfolio/Skills.tsx` (colorful logos, curated list, new positions)
+- `src/components/portfolio/Contact.tsx` (drop info aside, single-column form)
 
 ## Notes
 
-- Logo cloud uses external CDN (`cdn.simpleicons.org`) — zero dependencies, always up to date, and recolorable via URL. Tell me if you'd prefer bundled SVGs instead.
-- Photo will be displayed as-is; the gray background in your photo blends nicely with the white hero.
+- The old `virun-portrait.jpg` asset will be left in place but unreferenced. Happy to delete it too if you'd prefer a clean tree.
+- For the hobby chips I'll use the same pill style as the section-label (sans dot) so they feel native to the design system.
+- If any Simple Icons slug 404s (e.g., `css3`), I'll fall back to the closest valid slug and note it.
