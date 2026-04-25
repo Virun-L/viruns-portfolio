@@ -1,73 +1,69 @@
-## Virun Liyanage — Personal Portfolio
+## Changes to make
 
-A single-page, light-leaning, bento-grid portfolio with smooth scroll, micro-interactions, and a developer-focused aesthetic. Palette locked to: `#000000`, `#14213d` (deep navy — primary text/dark accents), `#fca311` (orange — highlights/CTAs), `#e5e5e5` (light gray — surfaces/dividers), `#ffffff` (background).
+### 1. Coding-friendly font
 
-### Design system
-- Background mostly white with `#e5e5e5` section breaks — never feels dark.
-- Headings in `#14213d`, body in a softer navy/gray, CTAs and key highlights in `#fca311`.
-- Typography: modern sans (Inter / Space Grotesk pairing) with a slightly playful mono accent for code snippets and labels (e.g. `> full-stack`).
-- Rounded corners, subtle shadows, animated noise/grid background only behind hero.
-- Micro-interactions everywhere: hover lifts, magnetic buttons, animated underlines, staggered fade-ins on scroll, animated counters, cursor-follow glow on bento cards.
+- Swap the body/display font to **JetBrains Mono** + **Fira Code** pairing (developer aesthetic). Concretely:
+  - Headings → **Space Grotesk** stays only if you prefer; switching to **JetBrains Mono** for headings and **Fira Code** for body to fully lean into a coder vibe. Recommend: headings in `JetBrains Mono` (bold), body in `Inter` kept for readability OR body in `Fira Code` if you want full mono feel.
+  - I'll go with: **Headings = JetBrains Mono (bold)**, **Body = Inter**, **Mono accents = Fira Code**. This reads as "developer" but stays legible.
+- Update `index.html` Google Fonts link, `src/index.css` `font-family` rules, and `tailwind.config.ts` `fontFamily` tokens.
 
-### Sections (top to bottom, single page with sticky nav)
+### 2. Hero photo replaces terminal
 
-1. **Sticky Navbar**
-   - Logo "VL" mark + links: About, Services, Skills, Projects, Contact.
-   - Active section highlight as you scroll, animated underline, mobile hamburger with slide-in drawer.
+- Copy the uploaded photo `user-uploads://dp_resized.jpg` → `src/assets/virun-portrait.jpg`.
+- In `src/components/portfolio/Hero.tsx`, remove the entire terminal card block and replace with a styled portrait:
+  - Rounded image with a subtle navy border, soft shadow, and a floating accent-colored blob behind it (keeps the existing animated glow vibe).
+  - Small floating "code chip" badges (e.g., `</>`, `{ }`, `git`) around the photo for a developer feel — keeps the section visually rich.
+  - Image imported as ES6 module from `@/assets/virun-portrait.jpg`.
 
-2. **Hero**
-   - Big intro: "Hi, I'm Virun Liyanage" with animated typewriter rotating between "Full-stack Developer", "CS Undergraduate @ IIT Sri Lanka", "DevOps Enthusiast".
-   - Short tagline, two CTAs: "View Projects" (orange) and "Get in touch" (outline).
-   - Right side: animated bento-style code/terminal card with typing effect.
-   - Subtle floating shapes + grid background.
+### 3. "My toolkit" → logo cloud
 
-3. **About (bento grid)**
-   - Multi-tile bento layout combining:
-     - Bio tile (longer paragraph about being a CS undergrad at IIT Sri Lanka focused on full-stack with growing DevOps interest).
-     - Stats tile (animated counters: years coding, projects, technologies — placeholders).
-     - "Currently learning" tile (DevOps tools).
-     - Location/availability tile.
-     - Quick-fact tile (favorite stack, etc.).
+- Replace `src/components/portfolio/Skills.tsx` content with a single bento tile containing a **scattered logo cloud**:
+  - Use **Simple Icons CDN** (`https://cdn.simpleicons.org/{slug}/14213d`) for crisp brand SVGs in the navy color, so no extra dependencies.
+  - Logos: TypeScript, JavaScript, Java, Python, React, Vite, TailwindCSS, Next.js, Node.js, Express, Spring, PostgreSQL, MongoDB, MySQL, Git, Docker, GitHub Actions, Linux, AWS, Postman.
+  - Position with **absolute positioning + randomized top/left/rotate/size** inside a relative container (~`h-[420px] md:h-[480px]`), with subtle float animation on hover.
+  - Remove the description paragraph ("The technologies I reach for daily…"). Keep the `// skills` label + `My toolkit` heading only.
 
-4. **Services / What I do**
-   - 3 cards with icons and hover tilt:
-     - Full-Stack Web Development
-     - Frontend Engineering
-     - DevOps & Cloud (learning)
-   - Each lists a few keywords (React, Node, Docker, CI/CD, AWS basics, etc.).
+### 4. Brighter section labels (`// about`, `// services`, etc.)
 
-5. **Skills**
-   - Categorized chips/badges: Languages, Frontend, Backend, Databases, DevOps & Tools.
-   - Hover reveals subtle orange glow; staggered entrance on scroll.
+- Currently rendered with `font-mono-ui text-sm text-accent` — they look washed out on white.
+- Upgrade across `About.tsx`, `Services.tsx`, `Skills.tsx`, `Projects.tsx`, `Contact.tsx`:
+  - Wrap in a pill: `inline-flex items-center gap-2 rounded-full bg-accent/15 px-3 py-1 text-accent font-semibold tracking-wide` with a small leading dot (`h-1.5 w-1.5 rounded-full bg-accent`).
+  - Bumps visual weight without breaking the palette.
 
-6. **Projects (5 placeholder cards in bento layout)**
-   - Each card: project image placeholder, title ("Project One" … "Project Five"), short blurb placeholder, tech stack tags, and two links (Live demo / GitHub) — all placeholder until you provide details.
-   - Hover: scale, shadow lift, orange accent border, image zoom.
-   - Mixed bento sizing (one large featured + four standard) for visual rhythm.
+### 5. Navbar CTA
 
-7. **Contact**
-   - Left: heading "Let's build something together" + email, GitHub, LinkedIn icon links (placeholders you can fill in).
-   - Right: contact form with Name, Email, Subject, Message fields and a "Send Message" button.
-   - Form is UI-only for now (no submit logic) — wired up later when you're ready.
+- In `src/components/portfolio/Navbar.tsx`, change "Hire me" → **"Let's build"** (both desktop and mobile drawer button).
 
-8. **Footer**
-   - Minimal: name, year, social icons, "Built with React + Vite" note, back-to-top button.
+### 6. Remove orange in text (except hero)
 
-### Animations & interactions
-- Scroll-triggered fade/slide reveals using Intersection Observer.
-- Tailwind keyframes already available (`fade-in`, `scale-in`) extended with slide-up and stagger.
-- Smooth scroll between sections via nav clicks.
-- Hover micro-interactions on every card and button.
-- Animated typewriter in hero, animated stat counters in About.
-- Reduced-motion support honored.
+- The `text-gradient` utility currently fades into orange. Audit & adjust:
+  - **Keep** orange on hero: `Hi, I'm Virun` gradient, the `.` accent, and the `> role` chevron.
+  - **Remove/replace** orange-text usages in:
+    - `About.tsx` → "about me" gradient → solid navy (or subtle navy-only gradient).
+    - `Services.tsx` → "do" gradient → solid navy.
+    - `Skills.tsx` → "toolkit" gradient → solid navy.
+    - `Projects.tsx` → "work" gradient → solid navy.
+    - `Contact.tsx` → "together" gradient → solid navy.
+    - `Stat` numbers in About: the `+`/`%` suffix is orange — change to navy.
+    - Footer & any other stray orange text.
+  - Orange stays on **non-text** elements: CTA button background, dots, borders, chips, glow shadows, the section-label pill bg, the live "Available" dot, etc. — so the accent color still pops visually.
 
-### Technical notes
-- Pure frontend, no backend yet (matches your "keep contact form, add send later" preference).
-- Routes stay at `/` (single-page); NotFound kept as fallback.
-- Design tokens added to `index.css` and `tailwind.config.ts` so the palette is reusable everywhere — no hardcoded colors in components.
-- Fully responsive: bento grids collapse cleanly on tablet and mobile (matches your 741px preview).
+## Files touched
 
-### What I'll need from you later
-- Real project details (title, description, tech, image, links) for the 5 placeholders.
-- Real contact links (email, GitHub, LinkedIn) — I'll use clearly-marked placeholders for now.
-- Optional: a profile photo or avatar (otherwise I'll use a tasteful illustrated placeholder).
+- `index.html` (fonts)
+- `src/index.css` (font-family, maybe a `text-gradient-navy` utility)
+- `tailwind.config.ts` (fontFamily tokens)
+- `src/components/portfolio/Hero.tsx` (photo replaces terminal)
+- `src/components/portfolio/Skills.tsx` (logo cloud)
+- `src/components/portfolio/About.tsx` (label pill, gradient → navy, stat suffix color)
+- `src/components/portfolio/Services.tsx` (label pill, gradient → navy)
+- `src/components/portfolio/Projects.tsx` (label pill, gradient → navy)
+- `src/components/portfolio/Contact.tsx` (label pill, gradient → navy)
+- `src/components/portfolio/Navbar.tsx` ("Let's build")
+- `src/components/portfolio/Footer.tsx` (audit orange text)
+- New asset: `src/assets/virun-portrait.jpg`
+
+## Notes
+
+- Logo cloud uses external CDN (`cdn.simpleicons.org`) — zero dependencies, always up to date, and recolorable via URL. Tell me if you'd prefer bundled SVGs instead.
+- Photo will be displayed as-is; the gray background in your photo blends nicely with the white hero.
