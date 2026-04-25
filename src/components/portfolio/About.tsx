@@ -25,7 +25,7 @@ const Stat = ({ value, label, suffix = "+", start }: { value: number; label: str
   const v = useCounter(value, start);
   return (
     <div>
-      <p className="font-display text-3xl sm:text-4xl font-bold text-navy">{v}<span className="text-accent">{suffix}</span></p>
+      <p className="font-display text-3xl sm:text-4xl font-bold text-navy">{v}<span className="text-navy">{suffix}</span></p>
       <p className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
     </div>
   );
@@ -47,9 +47,9 @@ export const About = () => {
     <section id="about" className="relative py-24 sm:py-28">
       <div className="container">
         <div ref={ref} className={cn("reveal mb-12", visible && "is-visible")}>
-          <p className="font-mono-ui text-sm text-accent">// about</p>
-          <h2 className="mt-2 font-display text-4xl sm:text-5xl font-bold text-navy">
-            A little bit <span className="text-gradient">about me</span>
+          <span className="section-label"><span className="tag-text">//</span> about</span>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy">
+            A little bit about me
           </h2>
         </div>
 

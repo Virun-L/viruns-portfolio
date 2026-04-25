@@ -24,9 +24,9 @@ export const Contact = () => {
     <section id="contact" className="relative py-24 sm:py-28">
       <div className="container">
         <div ref={ref} className={cn("reveal mb-12 max-w-2xl", visible && "is-visible")}>
-          <p className="font-mono-ui text-sm text-accent">// contact</p>
-          <h2 className="mt-2 font-display text-4xl sm:text-5xl font-bold text-navy">
-            Let's build something <span className="text-gradient">together</span>
+          <span className="section-label"><span className="tag-text">//</span> contact</span>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy">
+            Let's build something together
           </h2>
           <p className="mt-3 text-muted-foreground">
             Have an idea, a role, or just want to say hi? My inbox is open.
