@@ -95,9 +95,9 @@ export const Projects = () => {
       <div className="container">
         <div ref={ref} className={cn("reveal mb-12 flex flex-wrap items-end justify-between gap-4", visible && "is-visible")}>
           <div className="max-w-2xl">
-            <p className="font-mono-ui text-sm text-accent">// projects</p>
-            <h2 className="mt-2 font-display text-4xl sm:text-5xl font-bold text-navy">
-              Selected <span className="text-gradient">work</span>
+            <span className="section-label"><span className="tag-text">//</span> projects</span>
+            <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy">
+              Selected work
             </h2>
             <p className="mt-3 text-muted-foreground">
               A collection of things I've built. Real details coming soon — these are placeholders for now.

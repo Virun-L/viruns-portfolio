@@ -30,9 +30,9 @@ export const Services = () => {
     <section id="services" className="relative py-24 sm:py-28 bg-surface-strong/40">
       <div className="container">
         <div ref={ref} className={cn("reveal mb-12 max-w-2xl", visible && "is-visible")}>
-          <p className="font-mono-ui text-sm text-accent">// services</p>
-          <h2 className="mt-2 font-display text-4xl sm:text-5xl font-bold text-navy">
-            What I <span className="text-gradient">do</span>
+          <span className="section-label"><span className="tag-text">//</span> services</span>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy">
+            What I do
           </h2>
           <p className="mt-3 text-muted-foreground">
             Three things I love working on — and one I'm actively levelling up in.
