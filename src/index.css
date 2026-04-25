@@ -88,8 +88,9 @@
   }
 
   h1, h2, h3, h4 {
-    font-family: "Space Grotesk", "Inter", sans-serif;
-    letter-spacing: -0.02em;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    letter-spacing: -0.03em;
+    font-weight: 700;
   }
 
   ::selection {
@@ -99,8 +100,36 @@
 }
 
 @layer utilities {
-  .font-display { font-family: "Space Grotesk", "Inter", sans-serif; }
-  .font-mono-ui { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  .font-display { font-family: "JetBrains Mono", ui-monospace, monospace; letter-spacing: -0.03em; }
+  .font-mono-ui { font-family: "Fira Code", "JetBrains Mono", ui-monospace, monospace; }
+
+  /* Section eyebrow label — used across sections like // about, // skills */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: hsl(var(--accent) / 0.18);
+    border: 1px solid hsl(var(--accent) / 0.45);
+    color: hsl(var(--navy));
+    padding: 0.35rem 0.85rem;
+    font-family: "Fira Code", ui-monospace, monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .section-label::before {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 9999px;
+    background: hsl(var(--accent));
+    box-shadow: 0 0 0 3px hsl(var(--accent) / 0.25);
+  }
+  .section-label > span.tag-text {
+    color: hsl(var(--accent));
+    font-weight: 700;
+  }
 
   .bg-grid {
     background-image:
