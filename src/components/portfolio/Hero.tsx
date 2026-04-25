@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Github, Linkedin, Mail, Code2, Braces, GitBranch } from "lucide-react";
-import portrait from "@/assets/virun-portrait.jpg";
+import portrait from "@/assets/virun-portrait-2.jpg";
 
 const roles = [
   "Full-Stack Developer",
@@ -109,13 +109,13 @@ export const Hero = () => {
 
             {/* dashed frame */}
             <div className="relative rounded-[28px] border border-dashed border-navy/30 p-3">
-              <div className="relative overflow-hidden rounded-[22px] bg-navy shadow-elev">
+              <div className="relative overflow-hidden rounded-[22px] bg-surface shadow-elev">
                 {/* subtle accent backdrop behind subject */}
                 <div
                   className="absolute inset-0"
                   style={{
                     backgroundImage:
-                      "radial-gradient(70% 60% at 50% 35%, hsl(36 98% 53% / 0.35), transparent 65%)",
+                      "radial-gradient(70% 60% at 50% 40%, hsl(36 98% 53% / 0.18), transparent 65%)",
                   }}
                   aria-hidden
                 />
