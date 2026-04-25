@@ -118,14 +118,6 @@
     font-weight: 600;
     letter-spacing: 0.02em;
   }
-  .section-label::before {
-    content: "";
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 9999px;
-    background: hsl(var(--accent));
-    box-shadow: 0 0 0 3px hsl(var(--accent) / 0.25);
-  }
   .section-label > span.tag-text {
     color: hsl(var(--accent));
     font-weight: 700;
