@@ -118,11 +118,12 @@ export const Navbar = () => {
                   </a>
                 </li>
               ))}
-              <li>
+              <li className="mt-1 flex items-center gap-2">
+                <ThemeToggle />
                 <a
                   href="#contact"
                   onClick={() => setOpen(false)}
-                  className="mt-1 block rounded-xl bg-navy px-4 py-3 text-center text-sm font-medium text-navy-foreground"
+                  className="flex-1 rounded-xl bg-navy px-4 py-3 text-center text-sm font-medium text-navy-foreground"
                 >
                   Let's build
                 </a>
