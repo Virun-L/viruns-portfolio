@@ -1,103 +1,95 @@
 ## Goal
 
-Apply the three pending refinements that were skipped in the last round:
-
-1. Remove the "Currently learning" card from About and re-balance the bento row.
-2. Re-cluster the toolkit logos into a tighter, varied-size cloud with a subtle hover.
-3. Split the Contact section into a side-by-side text + form layout on large screens.
-
-The Hero section is **not** touched — it's already in the desired state.
+Apply the previously-skipped refinements first, then expand the toolkit with 9 new logos — all in one pass.
 
 ---
 
-## 1. About — remove "Currently learning" card
+## 1. Hero — update floating code chip text
 
-**File:** `src/components/portfolio/About.tsx`
+**File:** `src/components/portfolio/Hero.tsx`
 
-- Delete the entire navy "Currently learning" bento tile (the `<div className="bento p-6 md:col-span-2 bg-navy text-navy-foreground border-navy">…</div>` block with the `Rocket` icon and the learning list).
-- Remove the now-unused `Rocket` import from `lucide-react`.
-- Re-balance the second row from `md:col-span-2 × 3` to `md:col-span-3 × 2`:
-  - **Based in** tile → `md:col-span-3`
-  - **Off the keyboard** tile → `md:col-span-3`
-- Bio article stays full width (`md:col-span-6`) — no change.
-- Keep all existing styling, icons, hobby chips (Gym / Photography / Coffee), and the `Zap` decorative icon.
+Two of the three floating chips currently have commented-out labels. Replace them with real text. The third stays exactly as-is.
+
+- **Top-left chip** (Code2 icon): show `console.log("Hello World")`
+- **Middle-right chip** (Braces icon): show `npm run dev`
+- **Bottom-left chip** (GitBranch icon, `git push origin main`): no change
+
+Keep all positioning (`left-2 top-6`, `right-2 top-1/2 -translate-y-1/2`, `left-3 bottom-4`), z-index (`z-20`), animation delays, icons, backdrop blur, border, font, and shadow identical. Only the visible text strings change.
 
 ---
 
-## 2. Toolkit — clustered cloud, varied sizes, subtle hover
+## 2. Services — subtle orange tint on cards
+
+**File:** `src/components/portfolio/Services.tsx`
+
+Layer a soft warm tint into each `<article>` card so they relate to the accent color without becoming loud.
+
+On the article className (currently `"group bento p-6 sm:p-7 relative overflow-hidden"`), add:
+- `bg-gradient-to-br from-accent/10 via-background to-background`
+- `border-transparent transition-colors`
+- `hover:from-accent/20 hover:border-accent/40`
+
+The existing `bento` class stays so radius/shadow/padding are preserved. The thin top accent line on hover stays. Icon block, headings, descriptions, and tag chips unchanged. Tint stays in the 10–20% opacity range — never solid orange — so text and tag chips remain perfectly legible.
+
+---
+
+## 3. Toolkit — truly scattered layout + 9 new logos
 
 **File:** `src/components/portfolio/Skills.tsx`
 
-### Canvas
-- Shrink the canvas:
-  - From `h-[520px] sm:h-[560px] md:h-[600px]` → `h-[420px] sm:h-[460px] md:h-[500px]`.
-- Constrain the cluster to a centered area by wrapping the positioned logos in a `max-w-3xl mx-auto relative` container so the cloud feels packed instead of spread edge-to-edge.
+### 3a. Add 9 new logos
 
-### Positions (tighter cluster, organic — not a grid)
-Re-tune all 16 logos so `top` stays in roughly **12%–88%** and `left` in roughly **15%–85%**, packed closer with intentional small gaps. Example layout (4 loose rows, organic offsets):
+Extend the `logos` array with these Simple Icons slugs (CDN delivers original brand colors automatically):
 
-- Row 1 (~12–22%): html5, css, tailwindcss, javascript, typescript
-- Row 2 (~30–42%): react, nodedotjs, express, openjdk, python
-- Row 3 (~52–66%): postgresql, mysql, mongodb, supabase, github
-- Row 4 (~76–86%): postman (centered)
+- `nextdotjs` — Next.js
+- `docker` — Docker
+- `amazonwebservices` — AWS  *(fallback `amazon` if the primary slug 404s)*
+- `jsonwebtokens` — JWT
+- `firebase` — Firebase
+- `springboot` — Spring Boot
+- `graphql` — GraphQL
+- `go` — Go
+- `angular` — Angular
 
-Exact percentages get hand-tuned so neighbors don't visually collide given their varied sizes, but stay within the bounds above.
+Total: **25 logos** (16 existing + 9 new).
 
-### Random sizes
-Replace the current near-uniform sizes with a deliberate mix across:
-- `h-10 w-10` (small)
-- `h-14 w-14` (medium)
-- `h-20 w-20` (large)
-- `h-24 w-24` (extra large)
+### 3b. Truly random scatter (no rows, no columns)
 
-Distribute so the cluster reads as varied — e.g., 2–3 XL anchors (react, typescript, nodedotjs), several mediums, and a sprinkle of smalls. No two adjacent logos share the same size.
+Replace every `top` / `left` value — including the existing 16 — with hand-picked, jittered coordinates so the eye cannot pick out horizontal bands or vertical columns.
 
-### Hover effect (gentler)
-Replace the current `hover:scale-125` + heavy drop-shadow with:
-```
-transition-all duration-300 ease-out
-hover:scale-110 hover:-translate-y-1
-hover:drop-shadow-[0_6px_12px_rgba(252,163,17,0.35)]
-hover:z-20
-```
-Keep `hover:rotate-0` so the rotated logos straighten on hover.
+Constraints when assigning the 25 (top, left) pairs:
+- `top` spans **6%–92%**, `left` spans **6%–94%**.
+- No two neighbors share similar `top` values — vary vertical position by **≥8–12%** between any visually-adjacent pair.
+- No two neighbors share similar `left` values either — break column alignment.
+- Spacing is **irregular** — some logos close, some farther — never evenly distributed.
+- Account for size: place XL anchors (`react`, `typescript`, `nodedotjs`) with breathing room; tuck small `h-10` logos into gaps between larger ones.
+- No actual visual collision given mixed `h-10 → h-24` sizes (mentally check bounding boxes during placement).
 
-### Preserved
+### 3c. Sizes for the 9 new logos
+
+Mix into the existing varied distribution so the cluster still reads as random:
+- XL (`h-24 w-24`): 1 of the new ones (e.g. `nextdotjs` or `docker`)
+- L (`h-20 w-20`): 2 (e.g. `docker`, `firebase`)
+- M (`h-14 w-14`): 4 (e.g. `aws`, `springboot`, `graphql`, `angular`)
+- S (`h-10 w-10`): 2 (e.g. `jwt`, `go`)
+
+Each gets a small random `rotate-*` and a unique `delay` for the float animation, consistent with the existing pattern.
+
+### 3d. Preserved
+
+- 25-logo set, mixed sizes, rotations, original brand colors via `https://cdn.simpleicons.org/${slug}`.
 - `float` animation with staggered delays.
-- Original brand colors via `https://cdn.simpleicons.org/${slug}`.
-- Subtle grid backdrop and bento container.
+- Subtle hover effect: `hover:scale-110 hover:-translate-y-1 hover:rotate-0 hover:z-20 hover:drop-shadow-[0_6px_12px_rgba(252,163,17,0.35)]`.
+- Centered `max-w-3xl mx-auto` container, canvas height (`h-[420px] sm:h-[460px] md:h-[500px]`), grid backdrop, and bento wrapper.
 
----
-
-## 3. Contact — text and form side by side
-
-**File:** `src/components/portfolio/Contact.tsx`
-
-### Layout
-- Wrap the existing intro block and the form in a single grid:
-  ```
-  <div className="grid lg:grid-cols-2 gap-10 items-start">
-  ```
-- **Left column:** the existing intro (`// contact` label, "Let's build something together" heading, intro paragraph) — moved *inside* the grid instead of sitting above it. Keep the `useReveal` ref + `reveal` / `is-visible` classes on this column so the entrance animation is preserved.
-  - Add a small extras block below the paragraph:
-    - A reachable-via line: `Based in Colombo, Sri Lanka · Open to remote roles` (muted text, `font-mono-ui text-sm`).
-    - A soft visual flourish: a short accent-colored dashed divider, e.g. `<div className="mt-6 h-px w-24 border-t border-dashed border-accent" />`, so the column doesn't feel empty next to the form on wide screens.
-- **Right column:** the existing `<form className="bento p-7 space-y-5">` — unchanged in fields, validation, `onSubmit`, and toast behavior. **Drop** the `max-w-3xl mx-auto` since it now lives in a grid cell.
-
-### Mobile
-- On `<lg`, the grid naturally stacks to a single column with text first, form second — no extra work needed.
-
-### Preserved
-- `useReveal` animation on the left column.
-- Toast on submit.
-- "This form is UI-ready — sending will be wired up soon." helper text under the button.
+> Note: with 25 logos in the same canvas the cluster will feel denser — that's the intent. If a specific small logo ends up unavoidably overlapping a neighbor during implementation, nudge its `top`/`left` by a few percent rather than shrinking the canvas or removing logos.
 
 ---
 
 ## Files touched
 
-- `src/components/portfolio/About.tsx`
+- `src/components/portfolio/Hero.tsx`
+- `src/components/portfolio/Services.tsx`
 - `src/components/portfolio/Skills.tsx`
-- `src/components/portfolio/Contact.tsx`
 
-No changes to Hero, Navbar, Projects, Services, Footer, or routing.
+No changes to About, Contact, Projects, Navbar, Footer, or routing.
