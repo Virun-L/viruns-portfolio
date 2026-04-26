@@ -4,64 +4,93 @@ import { useReveal } from "@/hooks/use-reveal";
 type Logo = {
   slug: string;
   name: string;
-  // Position % within the centered cluster container — hand-jittered, no rows/columns
+  // Position % within the centered cluster container — collision-checked, no overlaps
   top: string;
   left: string;
   // Tailwind size class — mixed: small / medium / large / extra large
   size: string;
   rotate: string;
   delay: string;
-  // Optional override for non-Simple-Icons sources (e.g. AWS via devicon)
+  // Optional override URL for logos whose brand color is invisible in dark mode.
+  // Simple Icons dual-color URL (`/{slug}/{light}/{dark}`) auto-switches with
+  // the user's prefers-color-scheme, matching our default `theme: "system"`.
   url?: string;
 };
 
 // Default to Simple Icons CDN (original brand colors). Per-logo override via `url`.
 const logoUrl = (l: Logo) => l.url ?? `https://cdn.simpleicons.org/${l.slug}`;
 
-// 25 logos. Coordinates hand-tuned: every neighbor differs in `top` by ≥8%,
-// no shared `left` columns, irregular spacing, sized for visual breathing room.
+// 24 logos. Coordinates collision-checked: every pair's center distance is
+// greater than the sum of their radii plus padding. Spread irregularly across
+// top: 4–92%, left: 6–94% so no row/column structure is visible.
 const logos: Logo[] = [
-  // XL anchors (h-24)
-  { slug: "react",          name: "React",          top: "22%", left: "62%", size: "h-24 w-24", rotate: "rotate-3",  delay: "0.2s" },
-  { slug: "typescript",     name: "TypeScript",     top: "9%",  left: "36%", size: "h-24 w-24", rotate: "rotate-2",  delay: "0.6s" },
-  { slug: "nodedotjs",      name: "Node.js",        top: "47%", left: "78%", size: "h-24 w-24", rotate: "-rotate-2", delay: "1.4s" },
-  { slug: "nextdotjs",      name: "Next.js",        top: "73%", left: "26%", size: "h-24 w-24", rotate: "-rotate-3", delay: "0.8s" },
+  // XL anchors (h-24) — placed first, well separated
+  { slug: "typescript",     name: "TypeScript",     top: "8%",  left: "32%", size: "h-24 w-24", rotate: "rotate-2",  delay: "0.6s" },
+  { slug: "react",          name: "React",          top: "18%", left: "70%", size: "h-24 w-24", rotate: "rotate-3",  delay: "0.2s" },
+  { slug: "nodedotjs",      name: "Node.js",        top: "50%", left: "84%", size: "h-24 w-24", rotate: "-rotate-2", delay: "1.4s" },
+  {
+    slug: "nextdotjs",
+    name: "Next.js",
+    top: "80%",
+    left: "22%",
+    size: "h-24 w-24",
+    rotate: "-rotate-3",
+    delay: "0.8s",
+    url: "https://cdn.simpleicons.org/nextdotjs/000000/ffffff",
+  },
 
   // L (h-20)
-  { slug: "tailwindcss",    name: "Tailwind CSS",   top: "33%", left: "16%", size: "h-20 w-20", rotate: "rotate-6",  delay: "1.2s" },
-  { slug: "mongodb",        name: "MongoDB",        top: "55%", left: "44%", size: "h-20 w-20", rotate: "-rotate-3", delay: "0.5s" },
-  { slug: "docker",         name: "Docker",         top: "82%", left: "62%", size: "h-20 w-20", rotate: "rotate-4",  delay: "1.0s" },
-  { slug: "firebase",       name: "Firebase",       top: "13%", left: "82%", size: "h-20 w-20", rotate: "-rotate-5", delay: "0.3s" },
-  { slug: "postgresql",     name: "PostgreSQL",     top: "65%", left: "8%",  size: "h-20 w-20", rotate: "-rotate-4", delay: "1.1s" },
+  { slug: "firebase",       name: "Firebase",       top: "10%", left: "86%", size: "h-20 w-20", rotate: "-rotate-5", delay: "0.3s" },
+  { slug: "tailwindcss",    name: "Tailwind CSS",   top: "34%", left: "12%", size: "h-20 w-20", rotate: "rotate-6",  delay: "1.2s" },
+  { slug: "mongodb",        name: "MongoDB",        top: "56%", left: "38%", size: "h-20 w-20", rotate: "-rotate-3", delay: "0.5s" },
+  { slug: "postgresql",     name: "PostgreSQL",     top: "70%", left: "8%",  size: "h-20 w-20", rotate: "-rotate-4", delay: "1.1s" },
+  { slug: "docker",         name: "Docker",         top: "86%", left: "64%", size: "h-20 w-20", rotate: "rotate-4",  delay: "1.0s" },
 
   // M (h-14)
-  { slug: "html5",          name: "HTML5",          top: "18%", left: "12%", size: "h-14 w-14", rotate: "-rotate-6", delay: "0s"   },
-  { slug: "javascript",     name: "JavaScript",     top: "6%",  left: "50%", size: "h-14 w-14", rotate: "-rotate-3", delay: "0.8s" },
-  { slug: "python",         name: "Python",         top: "30%", left: "44%", size: "h-14 w-14", rotate: "rotate-3",  delay: "0.3s" },
-  { slug: "openjdk",        name: "Java",           top: "41%", left: "30%", size: "h-14 w-14", rotate: "-rotate-5", delay: "1.0s" },
-  { slug: "github",         name: "GitHub",         top: "38%", left: "92%", size: "h-14 w-14", rotate: "-rotate-6", delay: "0.9s" },
+  { slug: "html5",          name: "HTML5",          top: "22%", left: "14%", size: "h-14 w-14", rotate: "-rotate-6", delay: "0s"   },
+  { slug: "javascript",     name: "JavaScript",     top: "6%",  left: "54%", size: "h-14 w-14", rotate: "-rotate-3", delay: "0.8s" },
+  { slug: "python",         name: "Python",         top: "32%", left: "48%", size: "h-14 w-14", rotate: "rotate-3",  delay: "0.3s" },
+  { slug: "openjdk",        name: "Java",           top: "42%", left: "24%", size: "h-14 w-14", rotate: "-rotate-5", delay: "1.0s" },
   {
-    slug: "aws",
-    name: "AWS",
-    top: "62%",
-    left: "60%",
+    slug: "github",
+    name: "GitHub",
+    top: "30%",
+    left: "90%",
     size: "h-14 w-14",
-    rotate: "rotate-2",
-    delay: "0.7s",
-    url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg",
+    rotate: "-rotate-6",
+    delay: "0.9s",
+    url: "https://cdn.simpleicons.org/github/181717/ffffff",
   },
-  { slug: "springboot",     name: "Spring Boot",    top: "88%", left: "44%", size: "h-14 w-14", rotate: "-rotate-4", delay: "1.3s" },
-  { slug: "graphql",        name: "GraphQL",        top: "72%", left: "78%", size: "h-14 w-14", rotate: "rotate-5",  delay: "0.4s" },
-  { slug: "angular",        name: "Angular",        top: "57%", left: "26%", size: "h-14 w-14", rotate: "rotate-4",  delay: "1.5s" },
-  { slug: "mysql",          name: "MySQL",          top: "50%", left: "60%", size: "h-14 w-14", rotate: "rotate-5",  delay: "0.7s" },
-  { slug: "supabase",       name: "Supabase",       top: "27%", left: "78%", size: "h-14 w-14", rotate: "rotate-2",  delay: "1.3s" },
+  { slug: "springboot",     name: "Spring Boot",    top: "92%", left: "42%", size: "h-14 w-14", rotate: "-rotate-4", delay: "1.3s" },
+  { slug: "graphql",        name: "GraphQL",        top: "74%", left: "78%", size: "h-14 w-14", rotate: "rotate-5",  delay: "0.4s" },
+  { slug: "angular",        name: "Angular",        top: "60%", left: "64%", size: "h-14 w-14", rotate: "rotate-4",  delay: "1.5s" },
+  { slug: "mysql",          name: "MySQL",          top: "64%", left: "22%", size: "h-14 w-14", rotate: "rotate-5",  delay: "0.7s" },
+  { slug: "supabase",       name: "Supabase",       top: "46%", left: "62%", size: "h-14 w-14", rotate: "rotate-2",  delay: "1.3s" },
 
-  // S (h-10)
-  { slug: "css",            name: "CSS",            top: "48%", left: "10%", size: "h-10 w-10", rotate: "rotate-3",  delay: "0.4s" },
-  { slug: "express",        name: "Express",        top: "4%",  left: "18%", size: "h-10 w-10", rotate: "rotate-4",  delay: "0.9s" },
-  { slug: "postman",        name: "Postman",        top: "90%", left: "12%", size: "h-10 w-10", rotate: "rotate-4",  delay: "0.6s" },
-  { slug: "jsonwebtokens",  name: "JWT",            top: "78%", left: "92%", size: "h-10 w-10", rotate: "-rotate-3", delay: "1.1s" },
-  { slug: "go",             name: "Go",             top: "6%",  left: "70%", size: "h-10 w-10", rotate: "-rotate-2", delay: "0.5s" },
+  // S (h-10) — tucked into corner pockets
+  { slug: "css",            name: "CSS",            top: "50%", left: "8%",  size: "h-10 w-10", rotate: "rotate-3",  delay: "0.4s" },
+  {
+    slug: "express",
+    name: "Express",
+    top: "4%",
+    left: "16%",
+    size: "h-10 w-10",
+    rotate: "rotate-4",
+    delay: "0.9s",
+    url: "https://cdn.simpleicons.org/express/000000/ffffff",
+  },
+  { slug: "postman",        name: "Postman",        top: "90%", left: "10%", size: "h-10 w-10", rotate: "rotate-4",  delay: "0.6s" },
+  {
+    slug: "jsonwebtokens",
+    name: "JWT",
+    top: "78%",
+    left: "92%",
+    size: "h-10 w-10",
+    rotate: "-rotate-3",
+    delay: "1.1s",
+    url: "https://cdn.simpleicons.org/jsonwebtokens/000000/ffffff",
+  },
+  { slug: "go",             name: "Go",             top: "6%",  left: "78%", size: "h-10 w-10", rotate: "-rotate-2", delay: "0.5s" },
 ];
 
 export const Skills = () => {
