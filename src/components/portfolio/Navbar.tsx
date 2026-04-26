@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
 
 const links = [
   { href: "#about", label: "About" },
@@ -84,20 +85,23 @@ export const Navbar = () => {
             ))}
           </ul>
 
-          <a
-            href="#contact"
-            className="hidden md:inline-flex items-center rounded-full bg-navy px-4 py-2 text-sm font-medium text-navy-foreground transition-all hover:bg-navy/90 hover:shadow-glow"
-          >
-            Let's build
-          </a>
+          <div className="flex items-center gap-2">
+            <ThemeToggle className="hidden md:grid" />
+            <a
+              href="#contact"
+              className="hidden md:inline-flex items-center rounded-full bg-navy px-4 py-2 text-sm font-medium text-navy-foreground transition-all hover:bg-navy/90 hover:shadow-glow"
+            >
+              Let's build
+            </a>
 
-          <button
-            aria-label="Toggle menu"
-            className="md:hidden grid h-10 w-10 place-items-center rounded-full border border-border text-navy"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            <button
+              aria-label="Toggle menu"
+              className="md:hidden grid h-10 w-10 place-items-center rounded-full border border-border text-navy"
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </nav>
 
         {open && (
