@@ -1,47 +1,39 @@
-## Changes
+## Goal
 
-### 1. Hero photo swap (`src/components/portfolio/Hero.tsx` + new asset)
-- Copy `user-uploads://dp_1.jpg` → `src/assets/virun-portrait-2.jpg`.
-- Update the import in `Hero.tsx` to the new asset (keep the existing portrait frame, glow, dashed border, and floating code chips intact).
-- The new photo has a light gray background, so I'll tone down the orange radial backdrop behind the subject (it currently fights with the lighter image) and switch the inner card background from `bg-navy` to a soft neutral so the photo blends cleanly.
+Shrink the hero portrait slightly and reposition the three floating code chips so they overlap **on top of the photo** instead of sticking out beyond its frame. No changes to the rest of the Hero section, no scrolling-over-photo behavior, no neighboring sections affected.
 
-### 2. Remove the dot from section-label pills (`src/index.css`)
-- The `.section-label::before` pseudo-element renders the leading orange dot. Remove that block entirely.
-- Keep the pill background, border, and `// label` text styling untouched. This affects every section (`// about`, `// services`, `// skills`, `// work`, `// contact`) consistently.
+## Hero portrait changes (`src/components/portfolio/Hero.tsx`)
 
-### 3. About section — remove the stats card (`src/components/portfolio/About.tsx`)
-- Delete the entire `Stats` bento (Years coding / Projects built / Technologies / % Curiosity) including the `useCounter` hook, `Stat` component, `statsRef`, and `statsIn` state — they become dead code once the card is gone.
-- Adjust the bio article's grid span so the layout stays balanced after removal:
-  - Bio: `md:col-span-4 md:row-span-2` → `md:col-span-6` (full width, single row), OR keep span 4 and grow Currently learning to span 2 + Location span 2 + Off the keyboard span 2 in a tidy 6-col second row. I'll go with bio spanning all 6 cols on top and the three remaining tiles (Currently learning, Location, Off the keyboard) each `md:col-span-2` underneath — clean 3-up row, no empty slot.
+### 1. Make the photo a bit smaller
+- Current outer wrapper: `mx-auto w-full max-w-md lg:max-w-none` — on large screens the photo fills the entire right column.
+- Change to: `mx-auto w-full max-w-sm lg:max-w-md` so the portrait is noticeably smaller on both mobile and desktop, while still centered in its column.
+- The grid `lg:grid-cols-[1.1fr_0.9fr]` stays as-is — the right column just won't be fully filled by the image, which gives the chips room to sit over the photo edges instead of outside them.
 
-### 4. About — "Off the keyboard" hobbies (`About.tsx`)
-- Replace the single line "Tea, side projects, and hunting for new tech to learn." with three hobby chips: **Gym**, **Photography**, **Coffee**.
-- Render as small rounded chips with icons (lucide: `Dumbbell`, `Camera`, `Coffee`) inside the existing tile, keeping the orange `Zap` background flourish.
+### 2. Move the three floating chips inside the photo bounds
+The chips currently use negative offsets (`-left-4`, `-right-3`, `-left-3 -bottom-3`) which push them outside the dashed frame. Update each to sit **within** the image area so they overlap the photo:
 
-### 5. Toolkit — original-color logos + curated list (`src/components/portfolio/Skills.tsx`)
-- Switch logo URLs from `cdn.simpleicons.org/{slug}/14213d` → `cdn.simpleicons.org/{slug}` so each brand renders in its native color.
-- Replace the logo array with **only** the requested techs, in this order:
-  HTML5, CSS3, Tailwind CSS, JavaScript, Java, Python, React, Node.js, MySQL, PostgreSQL, Supabase, MongoDB, TypeScript, Postman, GitHub, Express.
-  Simple Icons slugs: `html5`, `css3` (or `css` if css3 is missing — will verify with the CDN), `tailwindcss`, `javascript`, `openjdk` (Java), `python`, `react`, `nodedotjs`, `mysql`, `postgresql`, `supabase`, `mongodb`, `typescript`, `postman`, `github`, `express`.
-- Re-distribute the `top` / `left` / `rotate` / `size` / `delay` values across the 16 logos so they spread evenly through the container without overlap (manually tuned, still randomized-looking, no grid).
-- Keep float animation, hover scale, and the orange drop-shadow glow on hover.
+- `</> full-stack` chip → `left-2 top-6` (was `-left-4 top-8`) — tucks into the top-left of the photo.
+- `{ devops }` chip → `right-2 top-1/2 -translate-y-1/2` (was `-right-3 top-1/3`) — sits on the right edge, vertically centered over the photo.
+- `git push origin main` chip → `left-3 bottom-4` (was `-left-3 -bottom-3`) — sits inside the bottom-left of the photo.
 
-### 6. Contact — remove the info aside (`src/components/portfolio/Contact.tsx`)
-- Delete the `<aside>` "Reach out" card (Email / Location / social links).
-- Change the wrapper grid from `lg:grid-cols-5` + form `lg:col-span-3` to a single-column layout, with the form constrained to `max-w-3xl mx-auto` so it doesn't stretch awkwardly on wide screens.
-- Form, validation, and submit stay exactly as-is.
+Also bump each chip's z-index with `z-20` so they render cleanly above the image (`<img>` is `z-10`).
+
+### 3. Also show the chips on mobile
+Currently they're `hidden sm:flex`. Since the photo is the focal point and the chips now sit *on* the photo (not beside it), keep them visible on mobile too — change to just `flex`. They'll scale naturally with the smaller photo.
+
+### 4. Tighten the dashed frame & glow to match
+- The outer glow `-inset-6` and the bottom-right blur blob `-bottom-6 -right-6 h-32 w-32` are sized for a larger photo. Reduce to `-inset-4` and `-bottom-4 -right-4 h-24 w-24` so the decorative glow stays proportional to the smaller portrait.
+
+## What stays exactly the same
+
+- The dashed border, rounded corners, glow blobs, accent radial backdrop, animations (`animate-scale-in`, `animate-float`), and `shadow-elev` on the photo card — all preserved.
+- The Hero text column, typewriter, CTAs, social icons — untouched.
+- The Hero section's normal document flow — no negative margins, no z-index trickery on neighboring sections, About sits cleanly below as before.
 
 ## Files touched
 
-- `src/assets/virun-portrait-2.jpg` (new — copied from upload)
-- `src/components/portfolio/Hero.tsx` (image import + backdrop tweak)
-- `src/index.css` (remove `.section-label::before`)
-- `src/components/portfolio/About.tsx` (drop stats card, restructure grid, hobby chips)
-- `src/components/portfolio/Skills.tsx` (colorful logos, curated list, new positions)
-- `src/components/portfolio/Contact.tsx` (drop info aside, single-column form)
+- `src/components/portfolio/Hero.tsx` — only the `{/* Portrait */}` block (lines ~104–144).
 
-## Notes
+## Note
 
-- The old `virun-portrait.jpg` asset will be left in place but unreferenced. Happy to delete it too if you'd prefer a clean tree.
-- For the hobby chips I'll use the same pill style as the section-label (sans dot) so they feel native to the design system.
-- If any Simple Icons slug 404s (e.g., `css3`), I'll fall back to the closest valid slug and note it.
+The other items from the previous round (remove "Currently learning" card in About, cluster the toolkit logos with random sizes + hover, side-by-side Contact layout) are **not** in this plan — let me know if you want those folded in too or handled separately.
