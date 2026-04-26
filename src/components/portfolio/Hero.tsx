@@ -147,14 +147,14 @@ export const Hero = () => {
               {/* floating code chips — overlap on top of the photo */}
               <div className="absolute z-20 left-2 top-6 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
                 <Code2 className="h-3.5 w-3.5 text-accent" />
-                {/* &lt;/&gt; full-stack */}
+                console.log("Hello World")
               </div>
               <div
                 className="absolute z-20 right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
                 style={{ animationDelay: "1.2s" }}
               >
                 <Braces className="h-3.5 w-3.5 text-accent" />
-                {/* &#123; devops &#125; */}
+                npm run dev
               </div>
               <div
                 className="absolute z-20 left-3 bottom-4 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
