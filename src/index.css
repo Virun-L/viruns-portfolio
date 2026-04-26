@@ -245,6 +245,20 @@
   .shadow-elev { box-shadow: var(--shadow-lg); }
 }
 
+/* Smooth theme transitions — color/background/border/shadow only.
+   Excludes transform/opacity so hover lifts, the typewriter cursor, float
+   animations, and reveal entrance are unaffected. */
+@layer base {
+  html {
+    transition: background-color 350ms ease, color 350ms ease;
+  }
+  body, header, nav, section, article, aside, footer, main,
+  div, span, p, a, button, input, textarea, ul, li,
+  h1, h2, h3, h4, h5, h6, img {
+    transition: background-color 350ms ease, border-color 350ms ease, color 350ms ease, box-shadow 350ms ease, fill 350ms ease, stroke 350ms ease;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
