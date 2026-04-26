@@ -102,10 +102,10 @@ export const Hero = () => {
           </div>
 
           {/* Portrait */}
-          <div className="relative animate-scale-in mx-auto w-full max-w-md lg:max-w-none">
+          <div className="relative animate-scale-in mx-auto w-full max-w-sm lg:max-w-md">
             {/* glow blobs */}
-            <div className="absolute -inset-6 rounded-[36px] bg-gradient-to-br from-accent/35 via-transparent to-navy/25 blur-3xl" aria-hidden />
-            <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-accent/40 blur-2xl animate-float" aria-hidden />
+            <div className="absolute -inset-4 rounded-[36px] bg-gradient-to-br from-accent/35 via-transparent to-navy/25 blur-3xl" aria-hidden />
+            <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-accent/40 blur-2xl animate-float" aria-hidden />
 
             {/* dashed frame */}
             <div className="relative rounded-[28px] border border-dashed border-navy/30 p-3">
@@ -127,16 +127,16 @@ export const Hero = () => {
                 />
               </div>
 
-              {/* floating code chips */}
-              <div className="absolute -left-4 top-8 hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
+              {/* floating code chips — overlap on top of the photo */}
+              <div className="absolute z-20 left-2 top-6 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
                 <Code2 className="h-3.5 w-3.5 text-accent" />
                 &lt;/&gt; full-stack
               </div>
-              <div className="absolute -right-3 top-1/3 hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "1.2s" }}>
+              <div className="absolute z-20 right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "1.2s" }}>
                 <Braces className="h-3.5 w-3.5 text-accent" />
                 &#123; devops &#125;
               </div>
-              <div className="absolute -left-3 -bottom-3 hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "0.6s" }}>
+              <div className="absolute z-20 left-3 bottom-4 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "0.6s" }}>
                 <GitBranch className="h-3.5 w-3.5 text-accent" />
                 git push origin main
               </div>
