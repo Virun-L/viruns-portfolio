@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Github, Linkedin, Mail, Code2, Braces, GitBranch } from "lucide-react";
 import portrait from "@/assets/virun-portrait-2.jpg";
 
-const roles = [
-  "Full-Stack Developer",
-  "CS Undergraduate @ IIT Sri Lanka",
-  "DevOps Enthusiast",
-];
+const roles = ["Full-Stack Developer", "CS Undergraduate @ IIT Sri Lanka", "DevOps Enthusiast"];
 
 const useTypewriter = (words: string[], speed = 70, pause = 1400) => {
   const [text, setText] = useState("");
@@ -47,8 +43,15 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-grid opacity-60" aria-hidden />
 
       {/* floating shapes */}
-      <div className="pointer-events-none absolute -left-10 top-32 h-40 w-40 rounded-full bg-accent/20 blur-3xl animate-float" aria-hidden />
-      <div className="pointer-events-none absolute right-10 bottom-10 h-56 w-56 rounded-full bg-navy/10 blur-3xl animate-float" style={{ animationDelay: "1.5s" }} aria-hidden />
+      <div
+        className="pointer-events-none absolute -left-10 top-32 h-40 w-40 rounded-full bg-accent/20 blur-3xl animate-float"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute right-10 bottom-10 h-56 w-56 rounded-full bg-navy/10 blur-3xl animate-float"
+        style={{ animationDelay: "1.5s" }}
+        aria-hidden
+      />
 
       <div className="container relative">
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -73,9 +76,8 @@ export const Hero = () => {
             </p>
 
             <p className="mt-5 max-w-xl text-base sm:text-lg text-muted-foreground">
-              I'm a computer science undergraduate at IIT Sri Lanka, focused on
-              building polished full-stack web experiences and growing into
-              the world of DevOps & cloud.
+              I'm a computer science undergraduate at IIT Sri Lanka, focused on building polished full-stack web
+              experiences and growing into the world of DevOps & cloud.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -95,17 +97,33 @@ export const Hero = () => {
             </div>
 
             <div className="mt-8 flex items-center gap-4 text-muted-foreground">
-              <a aria-label="GitHub" href="#" className="hover:text-navy transition-colors hover:-translate-y-0.5"><Github className="h-5 w-5" /></a>
-              <a aria-label="LinkedIn" href="#" className="hover:text-navy transition-colors hover:-translate-y-0.5"><Linkedin className="h-5 w-5" /></a>
-              <a aria-label="Email" href="#contact" className="hover:text-navy transition-colors hover:-translate-y-0.5"><Mail className="h-5 w-5" /></a>
+              <a aria-label="GitHub" href="#" className="hover:text-navy transition-colors hover:-translate-y-0.5">
+                <Github className="h-5 w-5" />
+              </a>
+              <a aria-label="LinkedIn" href="#" className="hover:text-navy transition-colors hover:-translate-y-0.5">
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                aria-label="Email"
+                href="#contact"
+                className="hover:text-navy transition-colors hover:-translate-y-0.5"
+              >
+                <Mail className="h-5 w-5" />
+              </a>
             </div>
           </div>
 
           {/* Portrait */}
           <div className="relative animate-scale-in mx-auto w-full max-w-sm lg:max-w-md">
             {/* glow blobs */}
-            <div className="absolute -inset-4 rounded-[36px] bg-gradient-to-br from-accent/35 via-transparent to-navy/25 blur-3xl" aria-hidden />
-            <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-accent/40 blur-2xl animate-float" aria-hidden />
+            <div
+              className="absolute -inset-4 rounded-[36px] bg-gradient-to-br from-accent/35 via-transparent to-navy/25 blur-3xl"
+              aria-hidden
+            />
+            <div
+              className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-accent/40 blur-2xl animate-float"
+              aria-hidden
+            />
 
             {/* dashed frame */}
             <div className="relative rounded-[28px] border border-dashed border-navy/30 p-3">
@@ -114,8 +132,7 @@ export const Hero = () => {
                 <div
                   className="absolute inset-0"
                   style={{
-                    backgroundImage:
-                      "radial-gradient(70% 60% at 50% 40%, hsl(36 98% 53% / 0.18), transparent 65%)",
+                    backgroundImage: "radial-gradient(70% 60% at 50% 40%, hsl(36 98% 53% / 0.18), transparent 65%)",
                   }}
                   aria-hidden
                 />
@@ -130,13 +147,19 @@ export const Hero = () => {
               {/* floating code chips — overlap on top of the photo */}
               <div className="absolute z-20 left-2 top-6 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
                 <Code2 className="h-3.5 w-3.5 text-accent" />
-                &lt;/&gt; full-stack
+                {/* &lt;/&gt; full-stack */}
               </div>
-              <div className="absolute z-20 right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "1.2s" }}>
+              <div
+                className="absolute z-20 right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
+                style={{ animationDelay: "1.2s" }}
+              >
                 <Braces className="h-3.5 w-3.5 text-accent" />
-                &#123; devops &#125;
+                {/* &#123; devops &#125; */}
               </div>
-              <div className="absolute z-20 left-3 bottom-4 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float" style={{ animationDelay: "0.6s" }}>
+              <div
+                className="absolute z-20 left-3 bottom-4 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
+                style={{ animationDelay: "0.6s" }}
+              >
                 <GitBranch className="h-3.5 w-3.5 text-accent" />
                 git push origin main
               </div>
