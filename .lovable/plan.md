@@ -1,95 +1,200 @@
-## Goal
 
-Apply the previously-skipped refinements first, then expand the toolkit with 9 new logos — all in one pass.
-
----
-
-## 1. Hero — update floating code chip text
-
-**File:** `src/components/portfolio/Hero.tsx`
-
-Two of the three floating chips currently have commented-out labels. Replace them with real text. The third stays exactly as-is.
-
-- **Top-left chip** (Code2 icon): show `console.log("Hello World")`
-- **Middle-right chip** (Braces icon): show `npm run dev`
-- **Bottom-left chip** (GitBranch icon, `git push origin main`): no change
-
-Keep all positioning (`left-2 top-6`, `right-2 top-1/2 -translate-y-1/2`, `left-3 bottom-4`), z-index (`z-20`), animation delays, icons, backdrop blur, border, font, and shadow identical. Only the visible text strings change.
-
----
-
-## 2. Services — subtle orange tint on cards
-
-**File:** `src/components/portfolio/Services.tsx`
-
-Layer a soft warm tint into each `<article>` card so they relate to the accent color without becoming loud.
-
-On the article className (currently `"group bento p-6 sm:p-7 relative overflow-hidden"`), add:
-- `bg-gradient-to-br from-accent/10 via-background to-background`
-- `border-transparent transition-colors`
-- `hover:from-accent/20 hover:border-accent/40`
-
-The existing `bento` class stays so radius/shadow/padding are preserved. The thin top accent line on hover stays. Icon block, headings, descriptions, and tag chips unchanged. Tint stays in the 10–20% opacity range — never solid orange — so text and tag chips remain perfectly legible.
-
----
-
-## 3. Toolkit — truly scattered layout + 9 new logos
+## 1. Skills — fix Express ↔ TypeScript overlap & missing AWS logo
 
 **File:** `src/components/portfolio/Skills.tsx`
 
-### 3a. Add 9 new logos
+### Overlap fix
+Currently:
+- `typescript` (h-24, XL) is at `top: 9%, left: 36%`
+- `express` (h-10, S) is at `top: 16%, left: 48%`
 
-Extend the `logos` array with these Simple Icons slugs (CDN delivers original brand colors automatically):
+The TS logo is 96px wide, so its right edge sits very close to where Express is centered → visible collision. Move Express down and to the right into a real gap, and nudge a couple of nearby small logos so the cluster stays balanced:
+- `express` → `top: 4%, left: 18%` (top-left empty pocket above HTML5)
+- `javascript` (currently `top: 8%, left: 54%`) → `top: 6%, left: 50%` (no change to size, just confirms it doesn't crowd TS — already fine since both are different sizes; minor tweak only if needed)
 
-- `nextdotjs` — Next.js
-- `docker` — Docker
-- `amazonwebservices` — AWS  *(fallback `amazon` if the primary slug 404s)*
-- `jsonwebtokens` — JWT
-- `firebase` — Firebase
-- `springboot` — Spring Boot
-- `graphql` — GraphQL
-- `go` — Go
-- `angular` — Angular
+Also re-check neighbors of any other size-mismatched pair and nudge if necessary (e.g. `python` 30/44 vs `typescript` 9/36 — vertically separated enough; `openjdk` 41/30 vs `tailwindcss` 33/16 — fine).
 
-Total: **25 logos** (16 existing + 9 new).
+### AWS logo fix
+The current slug `amazonwebservices` on `cdn.simpleicons.org` no longer resolves (Simple Icons removed AWS due to brand restrictions, which is why the image fails to render).
 
-### 3b. Truly random scatter (no rows, no columns)
+Fix by switching the AWS entry to a different icon source that still serves the AWS logo in brand colors. Two viable options:
 
-Replace every `top` / `left` value — including the existing 16 — with hand-picked, jittered coordinates so the eye cannot pick out horizontal bands or vertical columns.
+- **Option A (preferred):** Use the devicon CDN for AWS only:
+  `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg`
+- **Option B:** Use Simple Icons' `amazon` slug (the orange Amazon smile) as a stand-in.
 
-Constraints when assigning the 25 (top, left) pairs:
-- `top` spans **6%–92%**, `left` spans **6%–94%**.
-- No two neighbors share similar `top` values — vary vertical position by **≥8–12%** between any visually-adjacent pair.
-- No two neighbors share similar `left` values either — break column alignment.
-- Spacing is **irregular** — some logos close, some farther — never evenly distributed.
-- Account for size: place XL anchors (`react`, `typescript`, `nodedotjs`) with breathing room; tuck small `h-10` logos into gaps between larger ones.
-- No actual visual collision given mixed `h-10 → h-24` sizes (mentally check bounding boxes during placement).
+Implementation: extend the `Logo` type with an optional `url` override, and in `logoUrl()` prefer `l.url` when present. Keep all other 24 logos unchanged on the Simple Icons CDN.
 
-### 3c. Sizes for the 9 new logos
+```ts
+type Logo = { ...; url?: string };
+const logoUrl = (l: Logo) => l.url ?? `https://cdn.simpleicons.org/${l.slug}`;
+// AWS entry:
+{ slug: "aws", name: "AWS",
+  url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg",
+  top: "62%", left: "60%", size: "h-14 w-14", rotate: "rotate-2", delay: "0.7s" }
+```
 
-Mix into the existing varied distribution so the cluster still reads as random:
-- XL (`h-24 w-24`): 1 of the new ones (e.g. `nextdotjs` or `docker`)
-- L (`h-20 w-20`): 2 (e.g. `docker`, `firebase`)
-- M (`h-14 w-14`): 4 (e.g. `aws`, `springboot`, `graphql`, `angular`)
-- S (`h-10 w-10`): 2 (e.g. `jwt`, `go`)
+Everything else (sizes, hover effect, float animation, brand colors) stays as is.
 
-Each gets a small random `rotate-*` and a unique `delay` for the float animation, consistent with the existing pattern.
+---
 
-### 3d. Preserved
+## 2. Dark mode — system-aware toggle with smooth transition
 
-- 25-logo set, mixed sizes, rotations, original brand colors via `https://cdn.simpleicons.org/${slug}`.
-- `float` animation with staggered delays.
-- Subtle hover effect: `hover:scale-110 hover:-translate-y-1 hover:rotate-0 hover:z-20 hover:drop-shadow-[0_6px_12px_rgba(252,163,17,0.35)]`.
-- Centered `max-w-3xl mx-auto` container, canvas height (`h-[420px] sm:h-[460px] md:h-[500px]`), grid backdrop, and bento wrapper.
+### 2a. Theme provider + hook
+**New file:** `src/components/theme-provider.tsx`
 
-> Note: with 25 logos in the same canvas the cluster will feel denser — that's the intent. If a specific small logo ends up unavoidably overlapping a neighbor during implementation, nudge its `top`/`left` by a few percent rather than shrinking the canvas or removing logos.
+A lightweight provider (no external dep) that:
+- Reads stored preference from `localStorage` key `theme` (`"light" | "dark" | "system"`).
+- Defaults to `"system"` on first visit → reads `window.matchMedia("(prefers-color-scheme: dark)")`.
+- Adds/removes the `dark` class on `<html>` (matches the existing `darkMode: ["class"]` in `tailwind.config.ts`).
+- Listens to OS-level changes via `matchMedia(...).addEventListener("change", ...)` so it reacts live when the user is on `"system"`.
+- Exposes `useTheme()` returning `{ theme, setTheme, resolvedTheme }`.
+
+### 2b. Toggle button
+**New file:** `src/components/portfolio/ThemeToggle.tsx`
+
+- A round icon button matching the existing nav styling (border, h-10 w-10, rounded-full).
+- Uses `Sun` and `Moon` icons from `lucide-react` with a crossfade/rotate transition (same pattern shadcn uses):
+  ```tsx
+  <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+  <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+  ```
+- Click cycles `light → dark → system → light` (or simply toggles `light ↔ dark` — I'll pick the simpler 2-state toggle and keep "system" as the initial default; a long-press or tooltip is overkill here).
+
+### 2c. Wire into Navbar
+**File:** `src/components/portfolio/Navbar.tsx`
+
+Add `<ThemeToggle />` to the right side of the nav, just before the "Let's build" CTA on desktop, and inside the mobile menu (above the CTA). No layout changes besides inserting the button.
+
+### 2d. Mount provider
+**File:** `src/main.tsx`
+
+Wrap `<App />` with `<ThemeProvider defaultTheme="system" storageKey="vl-theme">`.
+
+### 2e. Dark palette (HSL tokens)
+**File:** `src/index.css`
+
+Add a `.dark` block under `@layer base` with dark counterparts for every token already in `:root`. Mapping (kept on-brand — navy + orange accent stays the identity, surfaces invert):
+
+```css
+.dark {
+  --background: 222 47% 8%;            /* deep near-black navy */
+  --foreground: 0 0% 96%;
+  --surface: 222 40% 12%;
+  --surface-strong: 222 35% 16%;
+
+  --card: 222 45% 11%;
+  --card-foreground: 0 0% 96%;
+  --popover: 222 45% 11%;
+  --popover-foreground: 0 0% 96%;
+
+  /* Brand inverted: navy text becomes near-white,
+     but keep --navy itself usable as a brand color via accent surface */
+  --navy: 0 0% 96%;                    /* used as primary text color */
+  --navy-foreground: 222 51% 12%;
+  --ink: 0 0% 100%;
+
+  --primary: 0 0% 96%;
+  --primary-foreground: 222 51% 12%;
+
+  --accent: 36 98% 56%;                /* orange stays, slight bump */
+  --accent-foreground: 222 51% 12%;
+
+  --secondary: 222 35% 18%;
+  --secondary-foreground: 0 0% 96%;
+
+  --muted: 222 35% 16%;
+  --muted-foreground: 0 0% 70%;
+
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 222 30% 22%;
+  --input: 222 30% 22%;
+  --ring: 36 98% 56%;
+
+  /* Re-tune gradients/shadows so they don't disappear on dark */
+  --gradient-hero: radial-gradient(1200px 600px at 10% 0%, hsl(36 98% 53% / 0.18), transparent 60%),
+                   radial-gradient(900px 500px at 100% 20%, hsl(0 0% 100% / 0.06), transparent 60%);
+  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.4);
+  --shadow-md: 0 8px 24px -10px hsl(0 0% 0% / 0.55);
+  --shadow-lg: 0 24px 60px -20px hsl(0 0% 0% / 0.6);
+  --shadow-glow: 0 10px 40px -10px hsl(36 98% 53% / 0.55);
+
+  --sidebar-background: 222 45% 10%;
+  --sidebar-foreground: 0 0% 80%;
+  --sidebar-primary: 0 0% 96%;
+  --sidebar-primary-foreground: 222 51% 12%;
+  --sidebar-accent: 222 35% 16%;
+  --sidebar-accent-foreground: 0 0% 96%;
+  --sidebar-border: 222 30% 22%;
+  --sidebar-ring: 36 98% 56%;
+}
+```
+
+Why remap `--navy` to near-white in dark: the codebase uses `text-navy` and `bg-navy` everywhere as "primary brand surface/text". Inverting the token (rather than rewriting every component) is the cleanest way to make all sections (Hero, About, Services, Skills, Projects, Contact, Footer, Navbar) instantly look correct in dark mode without touching component code. The orange accent stays the same so brand identity is preserved.
+
+The `glass` utility currently hardcodes `hsl(0 0% 100% / 0.7)` — update it to use a CSS variable so it darkens too:
+
+```css
+.glass {
+  background: hsl(var(--background) / 0.7);
+  backdrop-filter: blur(12px);
+}
+```
+
+### 2f. Smooth transition
+Add a global transition on color-related properties so theme switches crossfade rather than snap:
+
+```css
+@layer base {
+  html {
+    transition: background-color 350ms ease, color 350ms ease;
+  }
+  body, header, nav, section, article, aside, footer, div, span, p, h1, h2, h3, h4, h5, h6, a, button, input, textarea {
+    transition: background-color 350ms ease, border-color 350ms ease, color 350ms ease, box-shadow 350ms ease;
+  }
+}
+```
+
+(Scoped to color properties only — does not interfere with existing transform/opacity transitions on hover, the typewriter cursor, float animation, etc. The `prefers-reduced-motion` block at the bottom of `index.css` already overrides all transitions to ~0ms, so accessibility is preserved automatically.)
+
+To prevent a flash of incorrect theme on first paint, add a tiny inline script in `index.html` `<head>` that sets the `dark` class before React mounts:
+
+```html
+<script>
+  (function() {
+    try {
+      var t = localStorage.getItem('vl-theme') || 'system';
+      var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      if (dark) document.documentElement.classList.add('dark');
+    } catch (e) {}
+  })();
+</script>
+```
+
+### 2g. Component touch-ups for dark legibility
+Two spots need a small tweak so they don't look off in dark mode:
+
+- **Hero floating chips** (`Hero.tsx` lines 148, 153, 160): they use `bg-background/90` which already adapts via the token — no change needed. Just verify visually.
+- **Services cards** (`Services.tsx` line 48): `from-accent/10 via-background to-background` — adapts via tokens, no change.
+- **Skills bento backdrop**: `bg-grid` uses `hsl(var(--navy) / 0.06)` for the lines. Since `--navy` becomes near-white in dark, the grid will still show subtly on the dark surface. Good — no change.
 
 ---
 
 ## Files touched
 
-- `src/components/portfolio/Hero.tsx`
-- `src/components/portfolio/Services.tsx`
-- `src/components/portfolio/Skills.tsx`
+**New:**
+- `src/components/theme-provider.tsx`
+- `src/components/portfolio/ThemeToggle.tsx`
 
-No changes to About, Contact, Projects, Navbar, Footer, or routing.
+**Modified:**
+- `src/components/portfolio/Skills.tsx` — Express position + AWS icon source
+- `src/components/portfolio/Navbar.tsx` — mount `<ThemeToggle />`
+- `src/main.tsx` — wrap with `<ThemeProvider>`
+- `src/index.css` — `.dark` token block, glass util, smooth color transitions
+- `index.html` — pre-hydration theme script
+
+## Out of scope
+- No persistence to a backend (just `localStorage`).
+- Not adding a third "system" UI option to the toggle — defaulting to system on first visit is sufficient; the button toggles between light/dark thereafter.

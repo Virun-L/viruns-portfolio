@@ -70,6 +70,67 @@
     --sidebar-border: 0 0% 88%;
     --sidebar-ring: 36 98% 53%;
   }
+
+  .dark {
+    /* Surfaces — deep navy near-black, never pure black */
+    --background: 222 47% 8%;
+    --foreground: 0 0% 96%;
+
+    --surface: 222 40% 12%;
+    --surface-strong: 222 35% 16%;
+
+    --card: 222 45% 11%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 222 45% 11%;
+    --popover-foreground: 0 0% 96%;
+
+    /* Brand inverted: --navy used app-wide as primary text/surface,
+       so flip it to near-white in dark to keep all components correct
+       without rewriting them. Orange accent stays the brand identity. */
+    --navy: 0 0% 96%;
+    --navy-foreground: 222 51% 12%;
+    --ink: 0 0% 100%;
+
+    --primary: 0 0% 96%;
+    --primary-foreground: 222 51% 12%;
+
+    --accent: 36 98% 56%;
+    --accent-foreground: 222 51% 12%;
+
+    --secondary: 222 35% 18%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 222 35% 16%;
+    --muted-foreground: 0 0% 70%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 30% 22%;
+    --input: 222 30% 22%;
+    --ring: 36 98% 56%;
+
+    /* Re-tuned gradients/shadows for dark surfaces */
+    --gradient-hero: radial-gradient(1200px 600px at 10% 0%, hsl(36 98% 53% / 0.18), transparent 60%),
+                     radial-gradient(900px 500px at 100% 20%, hsl(0 0% 100% / 0.06), transparent 60%);
+    --gradient-accent: linear-gradient(135deg, hsl(36 98% 56%), hsl(36 98% 62%));
+    --gradient-navy: linear-gradient(135deg, hsl(222 47% 8%), hsl(222 45% 14%));
+
+    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-md: 0 8px 24px -10px hsl(0 0% 0% / 0.55);
+    --shadow-lg: 0 24px 60px -20px hsl(0 0% 0% / 0.6);
+    --shadow-glow: 0 10px 40px -10px hsl(36 98% 53% / 0.55);
+
+    --sidebar-background: 222 45% 10%;
+    --sidebar-foreground: 0 0% 80%;
+    --sidebar-primary: 0 0% 96%;
+    --sidebar-primary-foreground: 222 51% 12%;
+    --sidebar-accent: 222 35% 16%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 222 30% 22%;
+    --sidebar-ring: 36 98% 56%;
+  }
 }
 
 @layer base {
@@ -143,7 +204,7 @@
   }
 
   .glass {
-    background: hsl(0 0% 100% / 0.7);
+    background: hsl(var(--background) / 0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -182,6 +243,20 @@
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .shadow-soft { box-shadow: var(--shadow-md); }
   .shadow-elev { box-shadow: var(--shadow-lg); }
+}
+
+/* Smooth theme transitions — color/background/border/shadow only.
+   Excludes transform/opacity so hover lifts, the typewriter cursor, float
+   animations, and reveal entrance are unaffected. */
+@layer base {
+  html {
+    transition: background-color 350ms ease, color 350ms ease;
+  }
+  body, header, nav, section, article, aside, footer, main,
+  div, span, p, a, button, input, textarea, ul, li,
+  h1, h2, h3, h4, h5, h6, img {
+    transition: background-color 350ms ease, border-color 350ms ease, color 350ms ease, box-shadow 350ms ease, fill 350ms ease, stroke 350ms ease;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
