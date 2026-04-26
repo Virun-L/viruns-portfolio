@@ -1,39 +1,103 @@
 ## Goal
 
-Shrink the hero portrait slightly and reposition the three floating code chips so they overlap **on top of the photo** instead of sticking out beyond its frame. No changes to the rest of the Hero section, no scrolling-over-photo behavior, no neighboring sections affected.
+Apply the three pending refinements that were skipped in the last round:
 
-## Hero portrait changes (`src/components/portfolio/Hero.tsx`)
+1. Remove the "Currently learning" card from About and re-balance the bento row.
+2. Re-cluster the toolkit logos into a tighter, varied-size cloud with a subtle hover.
+3. Split the Contact section into a side-by-side text + form layout on large screens.
 
-### 1. Make the photo a bit smaller
-- Current outer wrapper: `mx-auto w-full max-w-md lg:max-w-none` — on large screens the photo fills the entire right column.
-- Change to: `mx-auto w-full max-w-sm lg:max-w-md` so the portrait is noticeably smaller on both mobile and desktop, while still centered in its column.
-- The grid `lg:grid-cols-[1.1fr_0.9fr]` stays as-is — the right column just won't be fully filled by the image, which gives the chips room to sit over the photo edges instead of outside them.
+The Hero section is **not** touched — it's already in the desired state.
 
-### 2. Move the three floating chips inside the photo bounds
-The chips currently use negative offsets (`-left-4`, `-right-3`, `-left-3 -bottom-3`) which push them outside the dashed frame. Update each to sit **within** the image area so they overlap the photo:
+---
 
-- `</> full-stack` chip → `left-2 top-6` (was `-left-4 top-8`) — tucks into the top-left of the photo.
-- `{ devops }` chip → `right-2 top-1/2 -translate-y-1/2` (was `-right-3 top-1/3`) — sits on the right edge, vertically centered over the photo.
-- `git push origin main` chip → `left-3 bottom-4` (was `-left-3 -bottom-3`) — sits inside the bottom-left of the photo.
+## 1. About — remove "Currently learning" card
 
-Also bump each chip's z-index with `z-20` so they render cleanly above the image (`<img>` is `z-10`).
+**File:** `src/components/portfolio/About.tsx`
 
-### 3. Also show the chips on mobile
-Currently they're `hidden sm:flex`. Since the photo is the focal point and the chips now sit *on* the photo (not beside it), keep them visible on mobile too — change to just `flex`. They'll scale naturally with the smaller photo.
+- Delete the entire navy "Currently learning" bento tile (the `<div className="bento p-6 md:col-span-2 bg-navy text-navy-foreground border-navy">…</div>` block with the `Rocket` icon and the learning list).
+- Remove the now-unused `Rocket` import from `lucide-react`.
+- Re-balance the second row from `md:col-span-2 × 3` to `md:col-span-3 × 2`:
+  - **Based in** tile → `md:col-span-3`
+  - **Off the keyboard** tile → `md:col-span-3`
+- Bio article stays full width (`md:col-span-6`) — no change.
+- Keep all existing styling, icons, hobby chips (Gym / Photography / Coffee), and the `Zap` decorative icon.
 
-### 4. Tighten the dashed frame & glow to match
-- The outer glow `-inset-6` and the bottom-right blur blob `-bottom-6 -right-6 h-32 w-32` are sized for a larger photo. Reduce to `-inset-4` and `-bottom-4 -right-4 h-24 w-24` so the decorative glow stays proportional to the smaller portrait.
+---
 
-## What stays exactly the same
+## 2. Toolkit — clustered cloud, varied sizes, subtle hover
 
-- The dashed border, rounded corners, glow blobs, accent radial backdrop, animations (`animate-scale-in`, `animate-float`), and `shadow-elev` on the photo card — all preserved.
-- The Hero text column, typewriter, CTAs, social icons — untouched.
-- The Hero section's normal document flow — no negative margins, no z-index trickery on neighboring sections, About sits cleanly below as before.
+**File:** `src/components/portfolio/Skills.tsx`
+
+### Canvas
+- Shrink the canvas:
+  - From `h-[520px] sm:h-[560px] md:h-[600px]` → `h-[420px] sm:h-[460px] md:h-[500px]`.
+- Constrain the cluster to a centered area by wrapping the positioned logos in a `max-w-3xl mx-auto relative` container so the cloud feels packed instead of spread edge-to-edge.
+
+### Positions (tighter cluster, organic — not a grid)
+Re-tune all 16 logos so `top` stays in roughly **12%–88%** and `left` in roughly **15%–85%**, packed closer with intentional small gaps. Example layout (4 loose rows, organic offsets):
+
+- Row 1 (~12–22%): html5, css, tailwindcss, javascript, typescript
+- Row 2 (~30–42%): react, nodedotjs, express, openjdk, python
+- Row 3 (~52–66%): postgresql, mysql, mongodb, supabase, github
+- Row 4 (~76–86%): postman (centered)
+
+Exact percentages get hand-tuned so neighbors don't visually collide given their varied sizes, but stay within the bounds above.
+
+### Random sizes
+Replace the current near-uniform sizes with a deliberate mix across:
+- `h-10 w-10` (small)
+- `h-14 w-14` (medium)
+- `h-20 w-20` (large)
+- `h-24 w-24` (extra large)
+
+Distribute so the cluster reads as varied — e.g., 2–3 XL anchors (react, typescript, nodedotjs), several mediums, and a sprinkle of smalls. No two adjacent logos share the same size.
+
+### Hover effect (gentler)
+Replace the current `hover:scale-125` + heavy drop-shadow with:
+```
+transition-all duration-300 ease-out
+hover:scale-110 hover:-translate-y-1
+hover:drop-shadow-[0_6px_12px_rgba(252,163,17,0.35)]
+hover:z-20
+```
+Keep `hover:rotate-0` so the rotated logos straighten on hover.
+
+### Preserved
+- `float` animation with staggered delays.
+- Original brand colors via `https://cdn.simpleicons.org/${slug}`.
+- Subtle grid backdrop and bento container.
+
+---
+
+## 3. Contact — text and form side by side
+
+**File:** `src/components/portfolio/Contact.tsx`
+
+### Layout
+- Wrap the existing intro block and the form in a single grid:
+  ```
+  <div className="grid lg:grid-cols-2 gap-10 items-start">
+  ```
+- **Left column:** the existing intro (`// contact` label, "Let's build something together" heading, intro paragraph) — moved *inside* the grid instead of sitting above it. Keep the `useReveal` ref + `reveal` / `is-visible` classes on this column so the entrance animation is preserved.
+  - Add a small extras block below the paragraph:
+    - A reachable-via line: `Based in Colombo, Sri Lanka · Open to remote roles` (muted text, `font-mono-ui text-sm`).
+    - A soft visual flourish: a short accent-colored dashed divider, e.g. `<div className="mt-6 h-px w-24 border-t border-dashed border-accent" />`, so the column doesn't feel empty next to the form on wide screens.
+- **Right column:** the existing `<form className="bento p-7 space-y-5">` — unchanged in fields, validation, `onSubmit`, and toast behavior. **Drop** the `max-w-3xl mx-auto` since it now lives in a grid cell.
+
+### Mobile
+- On `<lg`, the grid naturally stacks to a single column with text first, form second — no extra work needed.
+
+### Preserved
+- `useReveal` animation on the left column.
+- Toast on submit.
+- "This form is UI-ready — sending will be wired up soon." helper text under the button.
+
+---
 
 ## Files touched
 
-- `src/components/portfolio/Hero.tsx` — only the `{/* Portrait */}` block (lines ~104–144).
+- `src/components/portfolio/About.tsx`
+- `src/components/portfolio/Skills.tsx`
+- `src/components/portfolio/Contact.tsx`
 
-## Note
-
-The other items from the previous round (remove "Currently learning" card in About, cluster the toolkit logos with random sizes + hover, side-by-side Contact layout) are **not** in this plan — let me know if you want those folded in too or handled separately.
+No changes to Hero, Navbar, Projects, Services, Footer, or routing.
