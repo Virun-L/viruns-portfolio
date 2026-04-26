@@ -11,10 +11,12 @@ type Logo = {
   size: string;
   rotate: string;
   delay: string;
+  // Optional override for non-Simple-Icons sources (e.g. AWS via devicon)
+  url?: string;
 };
 
-// Brand logos via Simple Icons CDN, in their original brand colors.
-const logoUrl = (slug: string) => `https://cdn.simpleicons.org/${slug}`;
+// Default to Simple Icons CDN (original brand colors). Per-logo override via `url`.
+const logoUrl = (l: Logo) => l.url ?? `https://cdn.simpleicons.org/${l.slug}`;
 
 // 25 logos. Coordinates hand-tuned: every neighbor differs in `top` by ≥8%,
 // no shared `left` columns, irregular spacing, sized for visual breathing room.
@@ -34,11 +36,20 @@ const logos: Logo[] = [
 
   // M (h-14)
   { slug: "html5",          name: "HTML5",          top: "18%", left: "12%", size: "h-14 w-14", rotate: "-rotate-6", delay: "0s"   },
-  { slug: "javascript",     name: "JavaScript",     top: "8%",  left: "54%", size: "h-14 w-14", rotate: "-rotate-3", delay: "0.8s" },
+  { slug: "javascript",     name: "JavaScript",     top: "6%",  left: "50%", size: "h-14 w-14", rotate: "-rotate-3", delay: "0.8s" },
   { slug: "python",         name: "Python",         top: "30%", left: "44%", size: "h-14 w-14", rotate: "rotate-3",  delay: "0.3s" },
   { slug: "openjdk",        name: "Java",           top: "41%", left: "30%", size: "h-14 w-14", rotate: "-rotate-5", delay: "1.0s" },
   { slug: "github",         name: "GitHub",         top: "38%", left: "92%", size: "h-14 w-14", rotate: "-rotate-6", delay: "0.9s" },
-  { slug: "amazonwebservices", name: "AWS",         top: "62%", left: "60%", size: "h-14 w-14", rotate: "rotate-2",  delay: "0.7s" },
+  {
+    slug: "aws",
+    name: "AWS",
+    top: "62%",
+    left: "60%",
+    size: "h-14 w-14",
+    rotate: "rotate-2",
+    delay: "0.7s",
+    url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg",
+  },
   { slug: "springboot",     name: "Spring Boot",    top: "88%", left: "44%", size: "h-14 w-14", rotate: "-rotate-4", delay: "1.3s" },
   { slug: "graphql",        name: "GraphQL",        top: "72%", left: "78%", size: "h-14 w-14", rotate: "rotate-5",  delay: "0.4s" },
   { slug: "angular",        name: "Angular",        top: "57%", left: "26%", size: "h-14 w-14", rotate: "rotate-4",  delay: "1.5s" },
@@ -47,7 +58,7 @@ const logos: Logo[] = [
 
   // S (h-10)
   { slug: "css",            name: "CSS",            top: "48%", left: "10%", size: "h-10 w-10", rotate: "rotate-3",  delay: "0.4s" },
-  { slug: "express",        name: "Express",        top: "16%", left: "48%", size: "h-10 w-10", rotate: "rotate-4",  delay: "0.9s" },
+  { slug: "express",        name: "Express",        top: "4%",  left: "18%", size: "h-10 w-10", rotate: "rotate-4",  delay: "0.9s" },
   { slug: "postman",        name: "Postman",        top: "90%", left: "12%", size: "h-10 w-10", rotate: "rotate-4",  delay: "0.6s" },
   { slug: "jsonwebtokens",  name: "JWT",            top: "78%", left: "92%", size: "h-10 w-10", rotate: "-rotate-3", delay: "1.1s" },
   { slug: "go",             name: "Go",             top: "6%",  left: "70%", size: "h-10 w-10", rotate: "-rotate-2", delay: "0.5s" },
@@ -84,7 +95,7 @@ export const Skills = () => {
                   style={{ top: l.top, left: l.left, animation: `float 6s ease-in-out ${l.delay} infinite` }}
                 >
                   <img
-                    src={logoUrl(l.slug)}
+                    src={logoUrl(l)}
                     alt={l.name}
                     loading="lazy"
                     className={cn(l.size, "select-none pointer-events-auto")}
