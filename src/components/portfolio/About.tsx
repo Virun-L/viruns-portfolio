@@ -1,4 +1,4 @@
-import { GraduationCap, MapPin, Rocket, Coffee, Zap, Dumbbell, Camera } from "lucide-react";
+import { GraduationCap, MapPin, Coffee, Zap, Dumbbell, Camera } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -44,24 +44,8 @@ export const About = () => {
             </p>
           </article>
 
-          {/* Currently learning */}
-          <div className="bento p-6 md:col-span-2 bg-navy text-navy-foreground border-navy">
-            <div className="flex items-center gap-2 text-accent">
-              <Rocket className="h-4 w-4" />
-              <span className="font-mono-ui text-xs uppercase tracking-wider">Currently learning</span>
-            </div>
-            <ul className="mt-4 space-y-2 text-sm">
-              {["Docker & Kubernetes", "CI/CD with GitHub Actions", "AWS fundamentals", "System design"].map((x) => (
-                <li key={x} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Location */}
-          <div className="bento p-6 md:col-span-2">
+          <div className="bento p-6 md:col-span-3">
             <div className="flex items-center gap-2 text-accent">
               <MapPin className="h-4 w-4" />
               <span className="font-mono-ui text-xs uppercase tracking-wider">Based in</span>
@@ -71,7 +55,7 @@ export const About = () => {
           </div>
 
           {/* Off the keyboard — hobbies */}
-          <div className="bento p-6 md:col-span-2 group overflow-hidden relative">
+          <div className="bento p-6 md:col-span-3 group overflow-hidden relative">
             <div className="flex items-center gap-2 text-accent">
               <Coffee className="h-4 w-4" />
               <span className="font-mono-ui text-xs uppercase tracking-wider">Off the keyboard</span>
