@@ -45,7 +45,7 @@ export const Services = () => {
             return (
               <article
                 key={s.title}
-                className="group bento p-6 sm:p-7 relative overflow-hidden"
+                className="group bento p-6 sm:p-7 relative overflow-hidden bg-gradient-to-br from-accent/10 via-background to-background border-transparent transition-colors hover:from-accent/20 hover:border-accent/40"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
                 <div className="absolute inset-x-0 -top-px h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
