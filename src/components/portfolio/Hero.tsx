@@ -38,7 +38,7 @@ export const Hero = () => {
   const typed = useTypewriter(roles);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+    <section id="top" className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-28">
       <div className="absolute inset-0 bg-hero" aria-hidden />
       <div className="absolute inset-0 bg-grid opacity-60" aria-hidden />
 
@@ -144,20 +144,20 @@ export const Hero = () => {
                 />
               </div>
 
-              {/* floating code chips — overlap on top of the photo */}
-              <div className="absolute z-20 left-2 top-6 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
+              {/* floating code chips — overlap on top of the photo (hidden on very small screens) */}
+              <div className="hidden sm:flex absolute z-20 left-2 top-6 items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float">
                 <Code2 className="h-3.5 w-3.5 text-accent" />
                 console.log("Hello World")
               </div>
               <div
-                className="absolute z-20 right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
+                className="hidden sm:flex absolute z-20 right-2 top-1/2 -translate-y-1/2 items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
                 style={{ animationDelay: "1.2s" }}
               >
                 <Braces className="h-3.5 w-3.5 text-accent" />
                 npm run dev
               </div>
               <div
-                className="absolute z-20 left-3 bottom-4 flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
+                className="hidden sm:flex absolute z-20 left-3 bottom-4 items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur px-3 py-1.5 text-xs font-mono-ui text-navy shadow-soft animate-float"
                 style={{ animationDelay: "0.6s" }}
               >
                 <GitBranch className="h-3.5 w-3.5 text-accent" />
