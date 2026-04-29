@@ -104,27 +104,15 @@ export const Navbar = () => {
           </div>
         </nav>
 
-        <div
-          aria-hidden={!open}
-          className={cn(
-            "md:hidden mt-2 origin-top overflow-hidden rounded-2xl border border-border glass shadow-soft transition-[max-height,opacity,transform] duration-200 ease-out",
-            open
-              ? "max-h-[28rem] opacity-100 translate-y-0 pointer-events-auto"
-              : "max-h-0 opacity-0 -translate-y-2 pointer-events-none border-transparent shadow-none",
-          )}
-        >
-          <div className="p-3">
+        {open && (
+          <div className="md:hidden mt-2 rounded-2xl border border-border glass shadow-soft animate-fade-in p-3">
             <ul className="flex flex-col">
-              {links.map((l, i) => (
+              {links.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    style={{ transitionDelay: open ? `${i * 30}ms` : "0ms" }}
-                    className={cn(
-                      "block rounded-xl px-4 py-3 text-sm font-medium text-navy hover:bg-secondary transition-[opacity,transform] duration-200 ease-out",
-                      open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1",
-                    )}
+                    className="block rounded-xl px-4 py-3 text-sm font-medium text-navy hover:bg-secondary"
                   >
                     {l.label}
                   </a>
@@ -142,7 +130,7 @@ export const Navbar = () => {
               </li>
             </ul>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );
