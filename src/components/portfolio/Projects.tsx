@@ -1,4 +1,4 @@
-import { ArrowUpRight, Github, Star } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useReveal } from "@/hooks/use-reveal";
 import fintrixImg from "@/assets/project-fintrix.png";
@@ -11,7 +11,6 @@ type Project = {
   title: string;
   blurb: string;
   tags: string[];
-  featured?: boolean;
   image?: string;
   github?: string;
   hosted?: string;
@@ -23,7 +22,6 @@ const projects: Project[] = [
     blurb:
       "An all-in-one ERP and financial management platform that streamlines business operations. Built with React on the frontend and a Node.js/Drizzle ORM/Express backend, Fintrix automates complex financial statement generation and includes an AI-driven tool for smart internal reports — wrapped in a clean, glassmorphism-inspired UI.",
     tags: ["React", "Node.js", "Drizzle ORM", "Express"],
-    featured: true,
     image: fintrixImg,
     hosted: "https://www.fintrix.lk",
   },
@@ -63,15 +61,9 @@ const projects: Project[] = [
   },
 ];
 
-const ProjectCard = ({ p, large = false }: { p: Project; large?: boolean }) => (
-  <article
-    className={cn(
-      "group bento overflow-hidden flex flex-col",
-      large ? "md:col-span-2 md:row-span-2" : "",
-    )}
-  >
-    {/* Image / preview placeholder */}
-    <div className={cn("relative overflow-hidden bg-navy", large ? "aspect-[16/10]" : "aspect-[16/10]")}>
+const ProjectCard = ({ p }: { p: Project }) => (
+  <article className="group bento overflow-hidden flex flex-col">
+    <div className="relative overflow-hidden bg-navy aspect-[16/10]">
       {p.image ? (
         <img
           src={p.image}
@@ -100,11 +92,6 @@ const ProjectCard = ({ p, large = false }: { p: Project; large?: boolean }) => (
             <span className="font-display text-3xl sm:text-4xl font-bold text-white/90 tracking-tight">{p.title}</span>
           </div>
         </>
-      )}
-      {p.featured && (
-        <div className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-navy">
-          <Star className="h-3 w-3" /> Featured
-        </div>
       )}
     </div>
 
@@ -160,18 +147,16 @@ export const Projects = () => {
               Selected work
             </h2>
             <p className="mt-3 text-muted-foreground">
-              A collection of things I've built. Real details coming soon — these are placeholders for now.
+              A selection of things I've built — from full-stack platforms to data automation tools.
             </p>
           </div>
           <a href="#contact" className="font-mono-ui text-sm text-navy accent-underline">have a project? let's talk →</a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 auto-rows-[minmax(0,auto)]">
-          <ProjectCard p={projects[0]} large />
-          <ProjectCard p={projects[1]} />
-          <ProjectCard p={projects[2]} />
-          <ProjectCard p={projects[3]} />
-          <ProjectCard p={projects[4]} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((p) => (
+            <ProjectCard key={p.title} p={p} />
+          ))}
         </div>
       </div>
     </section>
