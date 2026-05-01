@@ -1,69 +1,126 @@
-## Toolkit logo swaps — `src/components/portfolio/Skills.tsx`
-
-Two single-entry edits. No layout, sizing, rotation, animation, or positioning changes — only the logo source for two items.
+Two-part update to `src/components/portfolio/Projects.tsx` plus new image assets in `src/assets/`. Done as one edit.
 
 ---
 
-### 1. Java → coffee cup logo
+## Part A — Content + preview images for projects 1–5
 
-Currently we use Simple Icons' `openjdk` slug, which renders the duke/coffee-steam icon in solid color. The user wants the classic **Java coffee cup** mark (the steaming red/blue mug, a.k.a. the "Java Coffee Cup Logo" originally from Sun).
+### Assets
 
-Simple Icons does not ship the coffee-cup mark (it's a legacy Sun trademark). The cleanest, reliably-hosted source is Devicon's original Java SVG, which is the coffee-cup design in its proper red/blue colors and reads on both light and dark backgrounds:
+Copy uploaded screenshots:
 
-- New URL: `https://cdn.jsdelivr.net/gh/devicon/devicon@latest/icons/java/java-original.svg`
+- `user-uploads://fintrix.png` → `src/assets/project-fintrix.png`
+- `user-uploads://estate-agent-web-application.png` → `src/assets/project-estate-agent.png`
+- `user-uploads://project_4.png` → `src/assets/project-enerbridge.png`
 
-Update the existing entry (line 53):
+Generate two illustrations via the AI gateway (`google/gemini-2.5-flash-image`), save to `src/assets/`:
 
-```ts
-{
-  slug: "java",
-  name: "Java",
-  top: "42%", left: "24%",
-  size: "h-14 w-14",
-  rotate: "-rotate-5",
-  delay: "1.0s",
-  url: "https://cdn.jsdelivr.net/gh/devicon/devicon@latest/icons/java/java-original.svg",
-},
+- `project-health-centre.png` — *"Minimalist illustration of a Java Swing health-centre staff management desktop window on a deep navy background. Stylized table listing doctors and receptionists, small medical cross icon, warm amber accent highlights, clean flat design, soft glow, 16:10 aspect ratio, no text, no logos."*
+- `project-meta-ads.png` — *"Minimalist illustration of an automated Meta Ads monthly report on a deep navy background. A stylized Excel spreadsheet and PDF document side by side with subtle bar-chart and KPI tiles (impressions, reach, leads), warm amber accent highlights, small Python/automation gear motif, clean flat design, soft glow, 16:10 aspect ratio, no readable text, no brand logos."*
+
+### Component
+
+Extend the `Project` type with `image?: string`, import the five assets, and in `ProjectCard` render an `<img>` filling the existing `aspect-[16/10]` preview area (with `object-cover` and `group-hover:scale-105`) when `p.image` is set; the gradient/grid/title block stays as fallback. The Featured badge stays on top.
+
+```tsx
+<div className="relative overflow-hidden bg-navy aspect-[16/10]">
+  {p.image ? (
+    <img
+      src={p.image}
+      alt={`${p.title} preview`}
+      loading="lazy"
+      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+  ) : (
+    <>{/* existing gradient + grid + centered title */}</>
+  )}
+  {p.featured && (
+    <div className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-navy">
+      <Star className="h-3 w-3" /> Featured
+    </div>
+  )}
+</div>
 ```
 
-(Slug renamed from `openjdk` → `java` since it's only used as a React `key` and tooltip fallback; the actual image now comes from `url`.)
+### `projects` array (entries 0–4)
+
+1. **Fintrix** — React, Node.js, Drizzle ORM, Express. Featured. Image: `project-fintrix.png`.
+2. **Health Centre Management** — Java, Java Swing, OOP Principles. Image: `project-health-centre.png`.
+3. **Estate Agent Property Search** — React. Image: `project-estate-agent.png`.
+4. **EnerBridge** — HTML, CSS, JavaScript. Image: `project-enerbridge.png`.
+5. **Meta Ads Monthly Report Automation** — Python, Meta Marketing API, openpyxl, ReportLab, python-dotenv. Image: `project-meta-ads.png`.
+
+(Full blurbs as previously approved.)
 
 ---
 
-### 2. GitHub → purple variant
+## Part B — Real GitHub + hosted links, conditional, new tab
 
-Currently GitHub uses the dual-color Simple Icons URL (`181717` light / `ffffff` dark). The user wants a **purple** GitHub logo instead.
-
-Simple Icons supports forcing any hex color via `https://cdn.simpleicons.org/{slug}/{hex}`. Using a vivid purple that reads on both light and dark surfaces:
-
-- New URL: `https://cdn.simpleicons.org/github/8b5cf6` (Tailwind violet-500, `#8b5cf6`)
-
-This single color works on both modes — bright enough on the dark navy background, saturated enough to stand out on light. No dual-color URL needed.
-
-Update the existing entry (lines 54–63):
+Extend the `Project` type:
 
 ```ts
-{
-  slug: "github",
-  name: "GitHub",
-  top: "30%", left: "90%",
-  size: "h-14 w-14",
-  rotate: "-rotate-6",
-  delay: "0.9s",
-  url: "https://cdn.simpleicons.org/github/8b5cf6",
-},
+type Project = {
+  title: string;
+  blurb: string;
+  tags: string[];
+  featured?: boolean;
+  image?: string;
+  github?: string;
+  hosted?: string;
+};
 ```
+
+Per-project links:
+
+| # | Project | github | hosted |
+|---|---|---|---|
+| 1 | Fintrix | — | https://www.fintrix.lk |
+| 2 | Health Centre Management | https://github.com/Virun-L/HealthCentreManager.git | — |
+| 3 | Estate Agent Property Search | https://github.com/Virun-L/Estate-Agent-Web-Application.git | https://viruns-estate-agent-web-application.vercel.app |
+| 4 | EnerBridge | https://github.com/Virun-L/EnerBridge.git | https://enerbridge.netlify.app/ |
+| 5 | Meta Ads Monthly Report Automation | https://github.com/Virun-L/Meta-Ads-Report-Generator.git | — |
+
+Replace the always-rendered icon row in `ProjectCard` with conditional anchors. Each uses `target="_blank"` and `rel="noopener noreferrer"`.
+
+```tsx
+<div className="flex items-center gap-1.5">
+  {p.github && (
+    <a
+      aria-label={`${p.title} on GitHub`}
+      href={p.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="grid h-9 w-9 place-items-center rounded-full border border-border text-navy transition-all hover:border-accent hover:bg-accent hover:text-navy hover:-translate-y-0.5"
+    >
+      <Github className="h-4 w-4" />
+    </a>
+  )}
+  {p.hosted && (
+    <a
+      aria-label={`${p.title} live site`}
+      href={p.hosted}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="grid h-9 w-9 place-items-center rounded-full border border-border text-navy transition-all hover:border-accent hover:bg-accent hover:text-navy hover:-translate-y-0.5"
+    >
+      <ArrowUpRight className="h-4 w-4" />
+    </a>
+  )}
+</div>
+```
+
+Result per card: P1 hosted only · P2 GitHub only · P3 both · P4 both · P5 GitHub only.
 
 ---
 
 ## Files touched
 
-**Modified:**
-- `src/components/portfolio/Skills.tsx` — swap `url` (and rename slug for Java) on the two affected entries.
-
-**No changes to:** any other logo, layout coordinates, sizes, rotations, delays, the `Logo` type, the `logoUrl` helper, the JSX, the float animation, or dark-mode handling for the rest of the icons.
+- `src/assets/project-fintrix.png` — copied from upload
+- `src/assets/project-estate-agent.png` — copied from upload
+- `src/assets/project-enerbridge.png` — copied from upload
+- `src/assets/project-health-centre.png` — AI-generated
+- `src/assets/project-meta-ads.png` — AI-generated
+- `src/components/portfolio/Projects.tsx` — type extension, image imports, conditional `<img>`, conditional new-tab link icons, populated entries 0–4
 
 ## Out of scope
 
-- Not touching the other 22 logos.
-- Not changing the toolkit container, hover effects, or theme behavior.
+- No changes to section header, grid layout, hover styling, or other portfolio sections.
