@@ -1,126 +1,51 @@
-Two-part update to `src/components/portfolio/Projects.tsx` plus new image assets in `src/assets/`. Done as one edit.
+## New layout for the projects grid
+
+Switch the projects section to a uniform 3-column grid where every card is the same size. Drop the featured "large" tile treatment.
 
 ---
 
-## Part A — Content + preview images for projects 1–5
+### Changes in `src/components/portfolio/Projects.tsx`
 
-### Assets
+**1. Grid container**
 
-Copy uploaded screenshots:
-
-- `user-uploads://fintrix.png` → `src/assets/project-fintrix.png`
-- `user-uploads://estate-agent-web-application.png` → `src/assets/project-estate-agent.png`
-- `user-uploads://project_4.png` → `src/assets/project-enerbridge.png`
-
-Generate two illustrations via the AI gateway (`google/gemini-2.5-flash-image`), save to `src/assets/`:
-
-- `project-health-centre.png` — *"Minimalist illustration of a Java Swing health-centre staff management desktop window on a deep navy background. Stylized table listing doctors and receptionists, small medical cross icon, warm amber accent highlights, clean flat design, soft glow, 16:10 aspect ratio, no text, no logos."*
-- `project-meta-ads.png` — *"Minimalist illustration of an automated Meta Ads monthly report on a deep navy background. A stylized Excel spreadsheet and PDF document side by side with subtle bar-chart and KPI tiles (impressions, reach, leads), warm amber accent highlights, small Python/automation gear motif, clean flat design, soft glow, 16:10 aspect ratio, no readable text, no brand logos."*
-
-### Component
-
-Extend the `Project` type with `image?: string`, import the five assets, and in `ProjectCard` render an `<img>` filling the existing `aspect-[16/10]` preview area (with `object-cover` and `group-hover:scale-105`) when `p.image` is set; the gradient/grid/title block stays as fallback. The Featured badge stays on top.
+Replace the current 4-col bento grid with a responsive 3-col grid:
 
 ```tsx
-<div className="relative overflow-hidden bg-navy aspect-[16/10]">
-  {p.image ? (
-    <img
-      src={p.image}
-      alt={`${p.title} preview`}
-      loading="lazy"
-      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-    />
-  ) : (
-    <>{/* existing gradient + grid + centered title */}</>
-  )}
-  {p.featured && (
-    <div className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-navy">
-      <Star className="h-3 w-3" /> Featured
-    </div>
-  )}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  {projects.map((p) => (
+    <ProjectCard key={p.title} p={p} />
+  ))}
 </div>
 ```
 
-### `projects` array (entries 0–4)
+- `grid-cols-1` on mobile, `sm:grid-cols-2` on tablet, `lg:grid-cols-3` on desktop.
+- `gap-6` for slightly more breathing room than the old `gap-5`.
+- `.map()` over the array instead of hand-placing each card — cleaner and future-proof for adding a sixth project.
 
-1. **Fintrix** — React, Node.js, Drizzle ORM, Express. Featured. Image: `project-fintrix.png`.
-2. **Health Centre Management** — Java, Java Swing, OOP Principles. Image: `project-health-centre.png`.
-3. **Estate Agent Property Search** — React. Image: `project-estate-agent.png`.
-4. **EnerBridge** — HTML, CSS, JavaScript. Image: `project-enerbridge.png`.
-5. **Meta Ads Monthly Report Automation** — Python, Meta Marketing API, openpyxl, ReportLab, python-dotenv. Image: `project-meta-ads.png`.
+**2. `ProjectCard` simplification**
 
-(Full blurbs as previously approved.)
+- Remove the `large` prop and the `md:col-span-2 md:row-span-2` branch — every card is identical now.
+- Keep the `aspect-[16/10]` preview area, image rendering, hover scale, tags, and link icons exactly as they are.
+- Remove the "Featured" badge entirely (per the decision to treat all projects equally). Also remove the unused `Star` import.
+- Remove the `featured` field from the `Project` type and from the Fintrix entry in `projects` (no behavioral effect, just cleanup).
 
----
+**3. Section header copy**
 
-## Part B — Real GitHub + hosted links, conditional, new tab
-
-Extend the `Project` type:
-
-```ts
-type Project = {
-  title: string;
-  blurb: string;
-  tags: string[];
-  featured?: boolean;
-  image?: string;
-  github?: string;
-  hosted?: string;
-};
-```
-
-Per-project links:
-
-| # | Project | github | hosted |
-|---|---|---|---|
-| 1 | Fintrix | — | https://www.fintrix.lk |
-| 2 | Health Centre Management | https://github.com/Virun-L/HealthCentreManager.git | — |
-| 3 | Estate Agent Property Search | https://github.com/Virun-L/Estate-Agent-Web-Application.git | https://viruns-estate-agent-web-application.vercel.app |
-| 4 | EnerBridge | https://github.com/Virun-L/EnerBridge.git | https://enerbridge.netlify.app/ |
-| 5 | Meta Ads Monthly Report Automation | https://github.com/Virun-L/Meta-Ads-Report-Generator.git | — |
-
-Replace the always-rendered icon row in `ProjectCard` with conditional anchors. Each uses `target="_blank"` and `rel="noopener noreferrer"`.
+The current subhead ("Real details coming soon — these are placeholders for now.") is now stale since every card has real content. Replace with:
 
 ```tsx
-<div className="flex items-center gap-1.5">
-  {p.github && (
-    <a
-      aria-label={`${p.title} on GitHub`}
-      href={p.github}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="grid h-9 w-9 place-items-center rounded-full border border-border text-navy transition-all hover:border-accent hover:bg-accent hover:text-navy hover:-translate-y-0.5"
-    >
-      <Github className="h-4 w-4" />
-    </a>
-  )}
-  {p.hosted && (
-    <a
-      aria-label={`${p.title} live site`}
-      href={p.hosted}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="grid h-9 w-9 place-items-center rounded-full border border-border text-navy transition-all hover:border-accent hover:bg-accent hover:text-navy hover:-translate-y-0.5"
-    >
-      <ArrowUpRight className="h-4 w-4" />
-    </a>
-  )}
-</div>
+<p className="mt-3 text-muted-foreground">
+  A selection of things I've built — from full-stack platforms to data automation tools.
+</p>
 ```
-
-Result per card: P1 hosted only · P2 GitHub only · P3 both · P4 both · P5 GitHub only.
 
 ---
 
-## Files touched
+### Files touched
 
-- `src/assets/project-fintrix.png` — copied from upload
-- `src/assets/project-estate-agent.png` — copied from upload
-- `src/assets/project-enerbridge.png` — copied from upload
-- `src/assets/project-health-centre.png` — AI-generated
-- `src/assets/project-meta-ads.png` — AI-generated
-- `src/components/portfolio/Projects.tsx` — type extension, image imports, conditional `<img>`, conditional new-tab link icons, populated entries 0–4
+- `src/components/portfolio/Projects.tsx` — grid container, `ProjectCard` simplification, type cleanup, header copy, drop `Star` import.
 
-## Out of scope
+### Out of scope
 
-- No changes to section header, grid layout, hover styling, or other portfolio sections.
+- No changes to card visuals (image, blurb, tags, link icons), section background, or other portfolio sections.
+- No changes to the project data itself beyond removing the now-unused `featured` flag.
