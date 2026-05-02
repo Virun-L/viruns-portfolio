@@ -1,15 +1,45 @@
-## Update About section paragraph
+## Goal
+Two related polish tweaks on the mobile navbar:
+1. Make the dropdown panel open feel snappier.
+2. Add a smooth transition when the menu button icon swaps between the hamburger (3 lines) and the close (X).
 
-In `src/components/portfolio/About.tsx`, replace the second paragraph in the "Who I am" card with the new copy.
+## Changes
 
-### Change
+**File: `src/components/portfolio/Navbar.tsx`**
 
-Replace the current second `<p>` (starting "I'm a perfectionist by default...") with:
+### 1. Snappier dropdown panel
+- On the mobile menu container (currently `animate-fade-in`, line 108), swap to a faster, crisper animation:
+  - `animate-[fade-in_150ms_cubic-bezier(0.22,1,0.36,1)]`
+  - Halves the duration (300ms → 150ms) and uses an ease-out-expo curve for an immediate-then-settle feel.
+
+### 2. Animated hamburger ↔ X icon
+Replace the current conditional render:
+```tsx
+{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+```
+with a stacked layout where both icons are always mounted, absolutely positioned, and cross-fade + rotate based on `open`:
 
 ```tsx
-<p className="mt-3 text-muted-foreground leading-relaxed">
-  I approach development with a focus on clarity and structure, aiming to build systems that are easy to understand, maintain, and scale.
-</p>
+<span className="relative h-5 w-5">
+  <Menu
+    className={cn(
+      "absolute inset-0 h-5 w-5 transition-all duration-200 ease-out",
+      open ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100"
+    )}
+  />
+  <X
+    className={cn(
+      "absolute inset-0 h-5 w-5 transition-all duration-200 ease-out",
+      open ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75"
+    )}
+  />
+</span>
 ```
 
-No other changes.
+This gives a quick rotate + fade swap (200ms) instead of an instant icon switch — matching the snappier dropdown timing.
+
+No other files change.
+
+## Result
+- Tapping the menu opens the panel almost immediately with a crisp settle.
+- The button icon smoothly rotates and cross-fades between the hamburger and X instead of popping.

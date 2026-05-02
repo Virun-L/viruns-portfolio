@@ -99,13 +99,26 @@ export const Navbar = () => {
               className="md:hidden grid h-10 w-10 place-items-center rounded-full border border-border text-navy"
               onClick={() => setOpen((v) => !v)}
             >
-              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <span className="relative h-5 w-5">
+                <Menu
+                  className={cn(
+                    "absolute inset-0 h-5 w-5 transition-all duration-200 ease-out",
+                    open ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100",
+                  )}
+                />
+                <X
+                  className={cn(
+                    "absolute inset-0 h-5 w-5 transition-all duration-200 ease-out",
+                    open ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75",
+                  )}
+                />
+              </span>
             </button>
           </div>
         </nav>
 
         {open && (
-          <div className="md:hidden mt-2 rounded-2xl border border-border glass shadow-soft animate-fade-in p-3">
+          <div className="md:hidden mt-2 rounded-2xl border border-border glass shadow-soft animate-[fade-in_150ms_cubic-bezier(0.22,1,0.36,1)] p-3">
             <ul className="flex flex-col">
               {links.map((l) => (
                 <li key={l.href}>
