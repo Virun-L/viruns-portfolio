@@ -38,9 +38,7 @@ export const About = () => {
               clean architecture and interfaces that feel considered down to the last pixel.
             </p>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              I'm a perfectionist by default. I care about the spacing, the loading state, the
-              empty state, the way a button responds when you press it. The small things compound —
-              and they're usually what separates "works" from "feels great."
+              I approach development with a focus on clarity and structure, aiming to build systems that are easy to understand, maintain, and scale.
             </p>
           </article>
 
