@@ -126,7 +126,7 @@ const ProjectCard = ({ p }: { p: Project }) => (
       <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.blurb}</p>
       <div className="mt-4 flex flex-wrap gap-1.5">
         {p.tags.map((t) => (
-          <span key={t} className="rounded-full border border-accent/40 bg-accent/15 px-2.5 py-1 text-xs font-semibold text-navy">
+          <span key={t} className="rounded-full border border-accent/30 bg-accent/5 px-2.5 py-1 text-xs font-medium text-navy/90">
             {t}
           </span>
         ))}

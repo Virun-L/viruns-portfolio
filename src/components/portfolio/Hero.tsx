@@ -38,7 +38,7 @@ export const Hero = () => {
   const typed = useTypewriter(roles);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+    <section id="top" className="relative overflow-hidden min-h-screen flex items-center pt-28 pb-16">
       <div className="absolute inset-0 bg-hero" aria-hidden />
       <div className="absolute inset-0 bg-grid opacity-60" aria-hidden />
 
@@ -97,15 +97,17 @@ export const Hero = () => {
             </div>
 
             <div className="mt-8 flex items-center gap-4 text-muted-foreground">
-              <a aria-label="GitHub" href="#" className="hover:text-navy transition-colors hover:-translate-y-0.5">
+              <a aria-label="GitHub" href="https://github.com/Virun-L" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors hover:-translate-y-0.5">
                 <Github className="h-5 w-5" />
               </a>
-              <a aria-label="LinkedIn" href="#" className="hover:text-navy transition-colors hover:-translate-y-0.5">
+              <a aria-label="LinkedIn" href="https://www.linkedin.com/in/virunliyanage" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors hover:-translate-y-0.5">
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
                 aria-label="Email"
-                href="#contact"
+                href="mailto:virundeesara1@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-navy transition-colors hover:-translate-y-0.5"
               >
                 <Mail className="h-5 w-5" />
