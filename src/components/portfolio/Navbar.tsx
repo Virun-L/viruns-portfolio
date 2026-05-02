@@ -118,7 +118,7 @@ export const Navbar = () => {
         </nav>
 
         {open && (
-          <div className="md:hidden mt-2 rounded-2xl border border-border glass shadow-soft animate-fade-in p-3">
+          <div className="md:hidden mt-2 rounded-2xl border border-border glass shadow-soft animate-[fade-in_150ms_cubic-bezier(0.22,1,0.36,1)] p-3">
             <ul className="flex flex-col">
               {links.map((l) => (
                 <li key={l.href}>
