@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Github, Linkedin, Mail, Code2, Braces, GitBranch } from "lucide-react";
 import portrait from "@/assets/virun-portrait-2.jpg";
 
-const roles = ["Full-Stack Developer", "Mobile App Developer", "CS Undergraduate @ IIT Sri Lanka", "Detail-obsessed Builder"];
+const roles = [
+  "Full-Stack Developer",
+  "Mobile App Developer",
+  "CS Undergraduate @ IIT Sri Lanka",
+  "Detail-obsessed Builder",
+];
 
 const useTypewriter = (words: string[], speed = 70, pause = 1400) => {
   const [text, setText] = useState("");
@@ -61,7 +66,7 @@ export const Hero = () => {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              Available for opportunities
+              Open to work
             </div>
 
             <h1 className="mt-5 font-display text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.05] text-navy">
@@ -76,8 +81,8 @@ export const Hero = () => {
             </p>
 
             <p className="mt-5 max-w-xl text-base sm:text-lg text-muted-foreground">
-              I'm a computer science undergraduate at IIT Sri Lanka building polished full-stack experiences
-              for the web and mobile — the kind where the details and performance quietly do the heavy lifting.
+              I'm a computer science undergraduate at IIT Sri Lanka building polished full-stack experiences for the web
+              and mobile — the kind where the details and performance quietly do the heavy lifting.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -97,10 +102,22 @@ export const Hero = () => {
             </div>
 
             <div className="mt-8 flex items-center gap-4 text-muted-foreground">
-              <a aria-label="GitHub" href="https://github.com/Virun-L" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors hover:-translate-y-0.5">
+              <a
+                aria-label="GitHub"
+                href="https://github.com/Virun-L"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-navy transition-colors hover:-translate-y-0.5"
+              >
                 <Github className="h-5 w-5" />
               </a>
-              <a aria-label="LinkedIn" href="https://www.linkedin.com/in/virunliyanage" target="_blank" rel="noopener noreferrer" className="hover:text-navy transition-colors hover:-translate-y-0.5">
+              <a
+                aria-label="LinkedIn"
+                href="https://www.linkedin.com/in/virunliyanage"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-navy transition-colors hover:-translate-y-0.5"
+              >
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
