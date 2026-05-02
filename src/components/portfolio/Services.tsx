@@ -1,4 +1,4 @@
-import { Code2, Layout, Cloud } from "lucide-react";
+import { Code2, Layout, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -6,21 +6,20 @@ const services = [
   {
     icon: Code2,
     title: "Full-Stack Development",
-    desc: "End-to-end web apps with clean APIs, solid data models, and performant frontends.",
+    desc: "End-to-end web apps where the API, data model, and UI all hold up to scrutiny — clean architecture, sensible types, no loose ends.",
     tags: ["React", "Node.js", "Express", "PostgreSQL", "REST"],
   },
   {
     icon: Layout,
     title: "Frontend Engineering",
-    desc: "Modern, responsive UIs with thoughtful interactions and a design-system mindset.",
+    desc: "Polished, responsive interfaces with deliberate spacing, motion, and micro-interactions. Every pixel earns its place.",
     tags: ["TypeScript", "Vite", "Tailwind", "Framer", "shadcn/ui"],
   },
   {
-    icon: Cloud,
-    title: "DevOps & Cloud",
-    desc: "Currently growing my toolkit — containerizing apps and shipping with confidence.",
-    tags: ["Docker", "GitHub Actions", "AWS basics", "Linux", "CI/CD"],
-    learning: true,
+    icon: Smartphone,
+    title: "Mobile Development",
+    desc: "Cross-platform mobile apps that feel native — smooth animations, native gestures, and pixel-tight layouts on every screen size.",
+    tags: ["React Native", "Flutter"],
   },
 ];
 
@@ -35,7 +34,7 @@ export const Services = () => {
             What I do
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Three things I love working on — and one I'm actively levelling up in.
+            Three things I do — and one mindset that runs through all of them: sweat the details.
           </p>
         </div>
 
@@ -52,13 +51,8 @@ export const Services = () => {
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-navy-foreground transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
                   <Icon className="h-6 w-6" />
                 </div>
-                <div className="mt-5 flex items-center gap-2">
+                <div className="mt-5">
                   <h3 className="font-display text-xl font-semibold text-navy">{s.title}</h3>
-                  {s.learning && (
-                    <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-mono-ui font-medium uppercase tracking-wider text-accent">
-                      Learning
-                    </span>
-                  )}
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                 <div className="mt-5 flex flex-wrap gap-1.5">
