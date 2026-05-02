@@ -48,7 +48,7 @@ export const Services = () => {
                 style={{ animationDelay: `${i * 80}ms` }}
               >
                 <div className="absolute inset-x-0 -top-px h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-navy-foreground transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
+                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-navy-foreground">
                   <Icon className="h-6 w-6" />
                 </div>
                 <div className="mt-5">

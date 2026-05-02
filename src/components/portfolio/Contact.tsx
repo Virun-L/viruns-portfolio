@@ -31,13 +31,7 @@ export const Contact = () => {
               Let's build something together
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Have an idea, a role, or just want to say hi? My inbox is open.
-            </p>
-
-            <div className="mt-6 h-px w-24 border-t border-dashed border-accent" aria-hidden />
-
-            <p className="mt-6 font-mono-ui text-sm text-muted-foreground">
-              Based in Colombo, Sri Lanka · Open to remote roles
+              Have an idea, a role, or just want to say hi? Hit me up!
             </p>
           </div>
 
