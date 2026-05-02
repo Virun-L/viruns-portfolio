@@ -15,10 +15,10 @@ export const About = () => {
     <section id="about" className="relative py-24 sm:py-28">
       <div className="container">
         <div ref={ref} className={cn("reveal mb-12", visible && "is-visible")}>
-          <span className="section-label"><span className="tag-text">//</span> about</span>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy">
-            A little bit about me
-          </h2>
+          <span className="section-label">
+            <span className="tag-text">//</span> about
+          </span>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl font-bold text-navy">A little bit about me</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-5 auto-rows-[minmax(140px,auto)]">
@@ -32,13 +32,14 @@ export const About = () => {
               Crafting polished full-stack experiences for web and mobile.
             </h3>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              I'm <span className="text-navy font-semibold">Virun Liyanage</span>, a
-              computer science undergraduate at <span className="text-navy font-semibold">IIT Sri Lanka</span>.
-              I build end-to-end full-stack web and mobile applications, with a strong focus on
-              clean architecture and interfaces that feel considered down to the last pixel.
+              I'm <span className="text-navy font-semibold">Virun Liyanage</span>, a computer science undergraduate at{" "}
+              <span className="text-navy font-semibold">IIT Sri Lanka</span>. I build end-to-end full-stack web and
+              mobile applications, with a strong focus on clean architecture and interfaces that feel considered down to
+              the last pixel.
             </p>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              I approach development with a focus on clarity and structure, aiming to build systems that are easy to understand, maintain, and scale.
+              I approach development with a focus on clarity and structure, aiming to build systems that are easy to
+              maintain and scale.
             </p>
           </article>
 
