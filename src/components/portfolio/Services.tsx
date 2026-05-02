@@ -34,7 +34,7 @@ export const Services = () => {
             What I do
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Three things I do — and one mindset that runs through all of them: sweat the details.
+            I turn ideas into clean, reliable, and beautifully crafted software.
           </p>
         </div>
 
