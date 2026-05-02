@@ -29,18 +29,18 @@ export const About = () => {
               <span className="font-mono-ui text-xs uppercase tracking-wider">Who I am</span>
             </div>
             <h3 className="mt-3 font-display text-2xl sm:text-3xl font-semibold text-navy">
-              Crafting clean, modern web experiences from Sri Lanka.
+              Crafting polished full-stack experiences for web and mobile.
             </h3>
             <p className="mt-4 text-muted-foreground leading-relaxed">
               I'm <span className="text-navy font-semibold">Virun Liyanage</span>, a
               computer science undergraduate at <span className="text-navy font-semibold">IIT Sri Lanka</span>.
-              My focus is full-stack development — building products that look great on the
-              surface and stay maintainable underneath. Lately I'm diving into the DevOps
-              side of things: containers, CI/CD pipelines, and cloud infrastructure.
+              I build end-to-end full-stack web and mobile applications, with a strong focus on
+              clean architecture and interfaces that feel considered down to the last pixel.
             </p>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              I love turning ideas into shipped products, learning by building, and
-              obsessing over the small details that make software feel polished.
+              I'm a perfectionist by default. I care about the spacing, the loading state, the
+              empty state, the way a button responds when you press it. The small things compound —
+              and they're usually what separates "works" from "feels great."
             </p>
           </article>
 

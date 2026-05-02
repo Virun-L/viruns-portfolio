@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Github, Linkedin, Mail, Code2, Braces, GitBranch } from "lucide-react";
 import portrait from "@/assets/virun-portrait-2.jpg";
 
-const roles = ["Full-Stack Developer", "CS Undergraduate @ IIT Sri Lanka", "DevOps Enthusiast"];
+const roles = ["Full-Stack Developer", "Mobile App Developer", "CS Undergraduate @ IIT Sri Lanka", "Detail-obsessed Builder"];
 
 const useTypewriter = (words: string[], speed = 70, pause = 1400) => {
   const [text, setText] = useState("");
@@ -76,8 +76,8 @@ export const Hero = () => {
             </p>
 
             <p className="mt-5 max-w-xl text-base sm:text-lg text-muted-foreground">
-              I'm a computer science undergraduate at IIT Sri Lanka, focused on building polished full-stack web
-              experiences and growing into the world of DevOps & cloud.
+              I'm a computer science undergraduate at IIT Sri Lanka building polished full-stack experiences
+              for the web and mobile — the kind where the details and performance quietly do the heavy lifting.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">

@@ -1,4 +1,4 @@
-import { Code2, Layout, Cloud } from "lucide-react";
+import { Code2, Layout, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -6,21 +6,20 @@ const services = [
   {
     icon: Code2,
     title: "Full-Stack Development",
-    desc: "End-to-end web apps with clean APIs, solid data models, and performant frontends.",
+    desc: "End-to-end web apps where the API, data model, and UI all hold up to scrutiny — clean architecture, sensible types, no loose ends.",
     tags: ["React", "Node.js", "Express", "PostgreSQL", "REST"],
   },
   {
     icon: Layout,
     title: "Frontend Engineering",
-    desc: "Modern, responsive UIs with thoughtful interactions and a design-system mindset.",
+    desc: "Polished, responsive interfaces with deliberate spacing, motion, and micro-interactions. Every pixel earns its place.",
     tags: ["TypeScript", "Vite", "Tailwind", "Framer", "shadcn/ui"],
   },
   {
-    icon: Cloud,
-    title: "DevOps & Cloud",
-    desc: "Currently growing my toolkit — containerizing apps and shipping with confidence.",
-    tags: ["Docker", "GitHub Actions", "AWS basics", "Linux", "CI/CD"],
-    learning: true,
+    icon: Smartphone,
+    title: "Mobile Development",
+    desc: "Cross-platform mobile apps that feel native — smooth animations, native gestures, and pixel-tight layouts on every screen size.",
+    tags: ["React Native", "Flutter"],
   },
 ];
 
@@ -35,7 +34,7 @@ export const Services = () => {
             What I do
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Three things I love working on — and one I'm actively levelling up in.
+            Three things I do — and one mindset that runs through all of them: sweat the details.
           </p>
         </div>
 

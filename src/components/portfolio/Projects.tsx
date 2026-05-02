@@ -147,7 +147,7 @@ export const Projects = () => {
               Selected work
             </h2>
             <p className="mt-3 text-muted-foreground">
-              A selection of things I've built — from full-stack platforms to data automation tools.
+              A selection of things I've built — full-stack platforms, web apps, and tools I sweated the details on.
             </p>
           </div>
           <a href="#contact" className="font-mono-ui text-sm text-navy accent-underline">have a project? let's talk →</a>
