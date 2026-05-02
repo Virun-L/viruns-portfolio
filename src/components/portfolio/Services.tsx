@@ -51,13 +51,8 @@ export const Services = () => {
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-navy text-navy-foreground transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
                   <Icon className="h-6 w-6" />
                 </div>
-                <div className="mt-5 flex items-center gap-2">
+                <div className="mt-5">
                   <h3 className="font-display text-xl font-semibold text-navy">{s.title}</h3>
-                  {s.learning && (
-                    <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-mono-ui font-medium uppercase tracking-wider text-accent">
-                      Learning
-                    </span>
-                  )}
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                 <div className="mt-5 flex flex-wrap gap-1.5">
