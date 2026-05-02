@@ -1,61 +1,50 @@
-## Refocus the portfolio on full-stack (web + mobile) and a perfectionist voice
+## Project card polish
 
-Strip every DevOps / cloud / CI-CD reference from the site and replace it with messaging that positions Virun as a full-stack developer who builds for both web and mobile and obsesses over polish and detail.
+Two small tweaks to `src/components/portfolio/Projects.tsx`:
 
----
+### 1. More visible tech stack capsules
 
-### 1. `src/components/portfolio/Services.tsx` — replace the DevOps service
+Current tags use `bg-surface` (very light gray) with `text-navy/80` — they fade into the card. Update to:
 
-Replace the third service card ("DevOps & Cloud", `Cloud` icon, `learning: true`) with a **Mobile Development** card. Also update the section subhead since nothing is "levelling up" anymore.
+- Background: navy tint with accent border for clear contrast on light theme, and a slightly stronger surface in dark
+- Text: full navy weight
+- Slightly bolder weight + subtle border
 
-- Drop `Cloud` from the lucide import; add `Smartphone`.
-- New third service:
-  - **icon**: `Smartphone`
-  - **title**: "Mobile Development"
-  - **desc**: "Cross-platform mobile apps that feel native — smooth animations, native gestures, and pixel-tight layouts on every screen size."
-  - **tags**: `["React Native", "Flutter"]`
-  - No `learning` flag.
-- Tweak the first two services to lean into the perfectionist angle:
-  - **Full-Stack Development** desc → "End-to-end web apps where the API, data model, and UI all hold up to scrutiny — clean architecture, sensible types, no loose ends."
-  - **Frontend Engineering** desc → "Polished, responsive interfaces with deliberate spacing, motion, and micro-interactions. Every pixel earns its place."
-- Section subhead → "Three things I do — and one mindset that runs through all of them: sweat the details."
-- Remove the `learning` badge rendering branch is fine to keep (no card sets it now), or strip it for cleanliness.
+```tsx
+<span
+  key={t}
+  className="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs font-semibold text-navy"
+>
+  {t}
+</span>
+```
 
-### 2. `src/components/portfolio/Hero.tsx` — typewriter roles + intro paragraph
+This keeps the brand orange/navy palette but makes the capsules clearly read as distinct chips.
 
-- `roles` array → `["Full-Stack Developer", "Mobile App Developer", "CS Undergraduate @ IIT Sri Lanka", "Detail-obsessed Builder"]`.
-- Intro paragraph (currently mentions "growing into the world of DevOps & cloud") → "I'm a computer science undergraduate at IIT Sri Lanka building polished full-stack experiences for the web and mobile — the kind where the details and performance quietly do the heavy lifting."
+### 2. Image fills the allocated space (no whitespace)
 
-### 3. `src/components/portfolio/About.tsx` — bio copy
+The image area is `aspect-[16/10]` and the `<img>` already uses `object-cover`, but some project screenshots (e.g. Health Centre, Meta Ads) likely don't match 16:10, so `object-cover` crops rather than letterboxes — meaning whitespace shouldn't appear from the image itself. The whitespace the user sees is most likely from:
 
-Rewrite the two bio paragraphs (lines 31–44):
+- The `bg-navy` showing through when the image is shorter than the box, OR
+- An aspect ratio that's too tall for some screenshots
 
-- Heading → "Crafting polished full-stack experiences for web and mobile."
-- Paragraph 1: "I'm **Virun Liyanage**, a computer science undergraduate at **IIT Sri Lanka**. I build end-to-end full-stack web and mobile applications, with a strong focus on clean architecture and interfaces that feel considered down to the last pixel."
+Fix:
+- Keep `object-cover` (so it fully fills), but ensure no padding/gap and explicitly set `w-full h-full` on the img, removing reliance on `absolute inset-0` which can occasionally leave sub-pixel gaps.
+- Drop the `bg-navy` fallback color on the wrapper (replace with `bg-surface`) so any edge cases blend with the card instead of showing a dark band.
 
-### 4. `index.html` — meta tags
+```tsx
+<div className="relative overflow-hidden bg-surface aspect-[16/10]">
+  {p.image ? (
+    <img
+      src={p.image}
+      alt={`${p.title} preview`}
+      loading="lazy"
+      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+  ) : (
+    /* keep existing gradient fallback */
+  )}
+</div>
+```
 
-- `<title>` → "Virun Liyanage — Full-Stack Web & Mobile Developer"
-- `description` meta → "Portfolio of Virun Liyanage, computer science undergraduate at IIT Sri Lanka, building polished full-stack web and mobile applications."
-- `og:description` → "CS undergraduate at IIT Sri Lanka building polished full-stack web and mobile applications with an eye for detail."
-- `og:title` → "Virun Liyanage — Full-Stack Web & Mobile Developer"
-
-### 5. `src/components/portfolio/Projects.tsx` — small subhead tweak
-
-Update the projects section subhead (line 150) to: "A selection of things I've built — full-stack platforms, web apps, and tools I sweated the details on."
-
----
-
-### Files touched
-
-- `src/components/portfolio/Services.tsx` — swap DevOps card for Mobile Development; refresh service descriptions and subhead.
-- `src/components/portfolio/Hero.tsx` — update typewriter roles and intro paragraph.
-- `src/components/portfolio/About.tsx` — rewrite bio heading and both paragraphs.
-- `index.html` — update title, description, OG tags.
-- `src/components/portfolio/Projects.tsx` — update section subhead.
-
-### Out of scope
-
-- No layout, color, font, or component-structure changes.
-- No new sections or projects.
-- No changes to the Skills/Stack visuals beyond the Services card swap.
+No other files affected.
