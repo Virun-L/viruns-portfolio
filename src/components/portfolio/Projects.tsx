@@ -63,13 +63,13 @@ const projects: Project[] = [
 
 const ProjectCard = ({ p }: { p: Project }) => (
   <article className="group bento overflow-hidden flex flex-col">
-    <div className="relative overflow-hidden bg-navy aspect-[16/10]">
+    <div className="relative overflow-hidden bg-surface aspect-[16/10]">
       {p.image ? (
         <img
           src={p.image}
           alt={`${p.title} preview`}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="block h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
       ) : (
         <>
@@ -126,7 +126,7 @@ const ProjectCard = ({ p }: { p: Project }) => (
       <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.blurb}</p>
       <div className="mt-4 flex flex-wrap gap-1.5">
         {p.tags.map((t) => (
-          <span key={t} className="rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-navy/80">
+          <span key={t} className="rounded-full border border-accent/40 bg-accent/15 px-2.5 py-1 text-xs font-semibold text-navy">
             {t}
           </span>
         ))}
