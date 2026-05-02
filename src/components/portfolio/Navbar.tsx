@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/portfolio/ThemeToggle";
@@ -14,7 +14,9 @@ const links = [
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [active, setActive] = useState<string>("");
+  const closeTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -39,6 +41,36 @@ export const Navbar = () => {
     });
     return () => obs.disconnect();
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current !== null) {
+        window.clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const closeMenu = () => {
+    if (!open) return;
+    setClosing(true);
+    if (closeTimeoutRef.current !== null) {
+      window.clearTimeout(closeTimeoutRef.current);
+    }
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setOpen(false);
+      setClosing(false);
+      closeTimeoutRef.current = null;
+    }, 180);
+  };
+
+  const openMenu = () => {
+    if (closeTimeoutRef.current !== null) {
+      window.clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setClosing(false);
+    setOpen(true);
+  };
 
   return (
     <header
@@ -97,7 +129,7 @@ export const Navbar = () => {
             <button
               aria-label="Toggle menu"
               className="md:hidden grid h-10 w-10 place-items-center rounded-full border border-border text-navy"
-              onClick={() => setOpen((v) => !v)}
+              onClick={() => (open ? closeMenu() : openMenu())}
             >
               <span className="relative h-5 w-5">
                 <Menu
@@ -117,14 +149,21 @@ export const Navbar = () => {
           </div>
         </nav>
 
-        {open && (
-          <div className="md:hidden mt-2 rounded-2xl border border-border glass shadow-soft animate-[fade-in_150ms_cubic-bezier(0.22,1,0.36,1)] p-3">
+        {(open || closing) && (
+          <div
+            className={cn(
+              "md:hidden mt-2 rounded-2xl border border-border glass shadow-soft p-3",
+              closing
+                ? "pointer-events-none animate-[fade-out_180ms_ease-in_both]"
+                : "animate-[fade-in_200ms_cubic-bezier(0.22,1,0.36,1)]",
+            )}
+          >
             <ul className="flex flex-col">
               {links.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMenu}
                     className="block rounded-xl px-4 py-3 text-sm font-medium text-navy hover:bg-secondary"
                   >
                     {l.label}
@@ -135,7 +174,7 @@ export const Navbar = () => {
                 <ThemeToggle />
                 <a
                   href="#contact"
-                  onClick={() => setOpen(false)}
+                  onClick={closeMenu}
                   className="flex-1 rounded-xl bg-navy px-4 py-3 text-center text-sm font-medium text-navy-foreground"
                 >
                   Let's build
