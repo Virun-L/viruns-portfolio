@@ -1,3 +1,3 @@
-# Virun's Digital Canvas
+# Virun's Portfolio
 
-TODO: Document your project here
+A simple personal portfolio website to showcase my projects, skills, and services.
