@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Github, Linkedin, Mail, Code2, Braces, GitBranch } from "lucide-react";
-import portrait from "@/assets/virun-portrait-2.jpg";
+import portrait from "@/assets/virun-portrait.jpg";
 
 const roles = [
   "Full-Stack Developer",
