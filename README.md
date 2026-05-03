@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Virun's Digital Canvas
 
 TODO: Document your project here
